@@ -84,7 +84,14 @@ def procesar_gesto(hand_landmarks, image):
           thumb_tip[1] - ring_finger_tip[1] > 0 and 
           thumb_tip[1] - pinky_tip[1] > 0):
         return 'E'
-
+    elif (pinky_pip[1] - pinky_tip[1] > 0 and 
+          middle_finger_pip[1] - middle_finger_tip[1] > 0 and 
+          ring_finger_pip[1] - ring_finger_tip[1] > 0 and 
+          index_finger_pip[1] - index_finger_tip[1] < 0 and 
+          abs(thumb_pip[1] - thumb_tip[1]) > 0 and 
+          distancia_euclidiana(index_finger_tip, thumb_tip) < 65):
+        return 'F'
+    
 # Ruta para detectar gestos
 @abecedario_api.route('/detectar_abecedario', methods=['POST'])
 def detectar_abecedario():
