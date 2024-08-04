@@ -42,6 +42,8 @@ def procesar_gesto(hand_landmarks, image):
 
     thumb_tip = (int(hand_landmarks.landmark[4].x * image_width),
                  int(hand_landmarks.landmark[4].y * image_height))
+    thumb_pip = (int(hand_landmarks.landmark[3].x * image_width),
+                 int(hand_landmarks.landmark[3].y * image_height))
     index_finger_tip = (int(hand_landmarks.landmark[8].x * image_width),
                         int(hand_landmarks.landmark[8].y * image_height))
     index_finger_pip = (int(hand_landmarks.landmark[6].x * image_width),
