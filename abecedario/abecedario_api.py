@@ -71,14 +71,17 @@ def procesar_gesto(hand_landmarks, image):
           distancia_euclidiana(thumb_tip, ring_finger_tip) < 30 and 
           distancia_euclidiana(thumb_tip, pinky_tip) < 30):
         return 'B'
-    elif (distancia_euclidiana(thumb_tip, index_finger_tip) > 30 and 
-          distancia_euclidiana(thumb_tip, middle_finger_tip) > 30 and 
-          distancia_euclidiana(thumb_tip, ring_finger_tip) > 30 and 
-          distancia_euclidiana(thumb_tip, pinky_tip) > 30 and
-          index_finger_tip[1] < index_finger_pip[1] and
-          middle_finger_tip[1] < middle_finger_pip[1] and
-          ring_finger_tip[1] < ring_finger_pip[1] and
-          pinky_tip[1] < pinky_pip[1]):
+    elif (index_finger_tip[0] < middle_finger_tip[0] and 
+          middle_finger_tip[0] < ring_finger_tip[0] and 
+          ring_finger_tip[0] < pinky_tip[0] and 
+          index_finger_tip[1] < index_finger_pip[1] and 
+          middle_finger_tip[1] < middle_finger_pip[1] and 
+          ring_finger_tip[1] < ring_finger_pip[1] and 
+          pinky_tip[1] < pinky_pip[1] and
+          thumb_tip[1] > index_finger_pip[1] and 
+          thumb_tip[1] > middle_finger_pip[1] and 
+          thumb_tip[1] > ring_finger_pip[1] and 
+          thumb_tip[1] > pinky_pip[1]):
         return 'C'
 
 
