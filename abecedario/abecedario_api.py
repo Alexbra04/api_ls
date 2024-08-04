@@ -93,11 +93,14 @@ def procesar_gesto(hand_landmarks, image):
           abs(thumb_pip[1] - thumb_tip[1]) > 0 and 
           distancia_euclidiana(index_finger_tip, thumb_tip) < 65):
         return 'F'
-    elif (index_finger_pip[1] - index_finger_tip[1] > 0 and 
-          middle_finger_pip[1] - middle_finger_tip[1] > 0 and 
-          ring_finger_pip[1] - ring_finger_tip[1] > 0 and 
-          pinky_pip[1] - pinky_tip[1] < 0 and 
-          abs(thumb_tip[1] - pinky_tip[1]) < 50):
+    elif (index_finger_tip[1] < thumb_tip[1] and
+          index_finger_tip[1] < middle_finger_tip[1] and
+          index_finger_tip[1] < ring_finger_tip[1] and
+          index_finger_tip[1] < pinky_tip[1] and
+          thumb_pip[1] - thumb_tip[1] < 0 and
+          middle_finger_tip[1] - middle_finger_pip[1] > 0 and
+          ring_finger_tip[1] - ring_finger_pip[1] > 0 and
+          pinky_tip[1] - pinky_pip[1] > 0):
         return 'G'
 
 # Ruta para detectar gestos
