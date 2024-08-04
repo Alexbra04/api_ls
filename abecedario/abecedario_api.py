@@ -62,16 +62,25 @@ def procesar_gesto(hand_landmarks, image):
     # Detectar letras según el lenguaje de señas del Ecuador
     if thumb_tip[1] < index_finger_tip[1] and thumb_tip[1] < middle_finger_tip[1] and thumb_tip[1] < ring_finger_tip[1] and thumb_tip[1] < pinky_tip[1]:
         return 'A'
-    elif thumb_tip[1] > index_finger_tip[1] and thumb_tip[1] > middle_finger_tip[1] and thumb_tip[1] > ring_finger_tip[1] and thumb_tip[1] > pinky_tip[1]:
+    elif (thumb_tip[1] < index_finger_tip[1] and 
+          thumb_tip[1] < middle_finger_tip[1] and 
+          thumb_tip[1] < ring_finger_tip[1] and 
+          thumb_tip[1] < pinky_tip[1] and 
+          distancia_euclidiana(thumb_tip, index_finger_tip) < 30 and 
+          distancia_euclidiana(thumb_tip, middle_finger_tip) < 30 and 
+          distancia_euclidiana(thumb_tip, ring_finger_tip) < 30 and 
+          distancia_euclidiana(thumb_tip, pinky_tip) < 30):
         return 'B'
-    elif thumb_tip[1] < index_finger_tip[1] and thumb_tip[1] > middle_finger_tip[1] and thumb_tip[1] > ring_finger_tip[1] and thumb_tip[1] > pinky_tip[1]:
+    elif (distancia_euclidiana(thumb_tip, index_finger_tip) > 30 and 
+          distancia_euclidiana(thumb_tip, middle_finger_tip) > 30 and 
+          distancia_euclidiana(thumb_tip, ring_finger_tip) > 30 and 
+          distancia_euclidiana(thumb_tip, pinky_tip) > 30 and
+          index_finger_tip[1] < index_finger_pip[1] and
+          middle_finger_tip[1] < middle_finger_pip[1] and
+          ring_finger_tip[1] < ring_finger_pip[1] and
+          pinky_tip[1] < pinky_pip[1]):
         return 'C'
-    elif thumb_tip[1] < index_finger_tip[1] and thumb_tip[1] < middle_finger_tip[1] and thumb_tip[1] < ring_finger_tip[1] and thumb_tip[1] > pinky_tip[1]:
-        return 'D'
-    elif thumb_tip[1] < index_finger_tip[1] and thumb_tip[1] > middle_finger_tip[1] and thumb_tip[1] > ring_finger_tip[1] and thumb_tip[1] > pinky_tip[1]:
-        return 'E'
-    elif thumb_tip[1] < index_finger_tip[1] and thumb_tip[1] > middle_finger_tip[1] and thumb_tip[1] > ring_finger_tip[1] and thumb_tip[1] > pinky_tip[1]:
-        return 'F'
+
 
 # Ruta para detectar gestos
 @abecedario_api.route('/detectar_abecedario', methods=['POST'])
