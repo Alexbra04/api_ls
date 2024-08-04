@@ -84,7 +84,6 @@ def procesar_gesto(hand_landmarks, image):
           thumb_tip[1] > pinky_pip[1]):
         return 'C'
 
-
 # Ruta para detectar gestos
 @abecedario_api.route('/detectar_abecedario', methods=['POST'])
 def detectar_abecedario():
