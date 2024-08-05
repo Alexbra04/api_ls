@@ -121,15 +121,16 @@ def procesar_gesto(hand_landmarks, image):
         ring_finger_pip[1] - ring_finger_tip[1] < 10 and
         thumb_tip[1] - thumb_pip[1] < 10):
         return 'I'
-    elif (index_finger_tip[1] < thumb_tip[1] and
-        middle_finger_tip[1] < thumb_tip[1] and
-        thumb_tip[1] < index_finger_tip[1] + 50 and
-        thumb_tip[1] < middle_finger_tip[1] + 50 and
-        thumb_tip[0] > min(index_finger_tip[0], middle_finger_tip[0]) and
-        thumb_tip[0] < max(index_finger_tip[0], middle_finger_tip[0]) and
-        ring_finger_tip[1] < thumb_tip[1] and
-        pinky_tip[1] < thumb_tip[1] and
-        abs(index_finger_tip[0] - middle_finger_tip[0]) < 50):
+    if (distancia_euclidiana(thumb_tip, index_finger_tip) < 100 and  # Pulgar cerca del índice
+        distancia_euclidiana(thumb_tip, middle_finger_tip) < 100 and  # Pulgar cerca del medio
+        distancia_euclidiana(index_finger_tip, middle_finger_tip) < 100 and  # Índice y medio cerca
+        thumb_tip[1] < index_finger_tip[1] and  # Pulgar por debajo del índice
+        thumb_tip[1] < middle_finger_tip[1] and  # Pulgar por debajo del medio
+        index_finger_tip[1] < middle_finger_tip[1] and  # Índice por debajo del medio
+        ring_finger_tip[1] > thumb_tip[1] and  # Anular por debajo del pulgar
+        pinky_tip[1] > thumb_tip[1] and  # Meñique por debajo del pulgar
+        abs(ring_finger_tip[1] - thumb_tip[1]) > 100 and  # Anular lejos del pulgar
+        abs(pinky_tip[1] - thumb_tip[1]) > 100):  # Meñique lejos del pulgar
         return 'R'
 
 # Ruta para detectar gestos
