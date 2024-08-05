@@ -118,7 +118,10 @@ def procesar_gesto(hand_landmarks, image):
           thumb_tip[1] < index_finger_pip[1] and 
           thumb_tip[1] < middle_finger_pip[1] and 
           thumb_tip[1] < ring_finger_pip[1] and 
-          abs(thumb_tip[0] - pinky_tip[0]) < 40):
+          abs(thumb_tip[0] - pinky_tip[0]) < 40 and 
+          pinky_tip[1] < index_finger_tip[1] and 
+          pinky_tip[1] < middle_finger_tip[1] and 
+          pinky_tip[1] < ring_finger_tip[1]):
         return 'I'
 
 # Ruta para detectar gestos
