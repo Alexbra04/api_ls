@@ -131,19 +131,16 @@ def procesar_gesto(hand_landmarks, image):
         abs(ring_finger_tip[1] - ring_finger_pip[1]) < 30 and
         abs(pinky_tip[1] - pinky_pip[1]) < 30):
         return 'K'
-    elif (distancia_euclidiana(thumb_tip, index_finger_tip) < 65 and 
-        distancia_euclidiana(thumb_tip, middle_finger_tip) < 65 and 
-        distancia_euclidiana(thumb_tip, ring_finger_tip) < 65 and 
-        distancia_euclidiana(thumb_tip, pinky_tip) < 65 and 
-        index_finger_tip[1] < thumb_tip[1] and 
-        middle_finger_tip[1] < thumb_tip[1] and 
-        ring_finger_tip[1] < thumb_tip[1] and 
-        pinky_tip[1] < thumb_tip[1] and 
-        thumb_tip[0] - thumb_pip[0] > 30 and 
-        pinky_pip[1] - pinky_tip[1] < 0 and 
-        index_finger_pip[1] - index_finger_tip[1] > 0 and
-        middle_finger_pip[1] - middle_finger_tip[1] > 0 and
-        ring_finger_pip[1] - ring_finger_tip[1] > 0):
+    elif (distancia_euclidiana(thumb_tip, index_finger_tip) < 65 and
+        distancia_euclidiana(thumb_tip, middle_finger_tip) < 65 and
+        distancia_euclidiana(thumb_tip, ring_finger_tip) < 65 and
+        distancia_euclidiana(thumb_tip, pinky_tip) < 65 and
+        index_finger_tip[1] < thumb_tip[1] and  # Dedo índice arriba
+        middle_finger_tip[1] > thumb_tip[1] and  # Dedos medio, anular y meñique abajo
+        ring_finger_tip[1] > thumb_tip[1] and
+        pinky_tip[1] > thumb_tip[1] and
+        thumb_tip[1] - thumb_pip[1] > 20 and  # Pulgar estirado
+        abs(index_finger_tip[0] - thumb_tip[0]) < 80):  # Pulgar cerca del índice
         return 'L'
 # Ruta para detectar gestos
 @abecedario_api.route('/detectar_abecedario', methods=['POST'])
