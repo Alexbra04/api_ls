@@ -60,6 +60,9 @@ def procesar_gesto(hand_landmarks, image):
                  int(hand_landmarks.landmark[20].y * image_height))
     pinky_pip = (int(hand_landmarks.landmark[18].x * image_width),
                  int(hand_landmarks.landmark[18].y * image_height))
+    
+    ring_finger_pip2 = (int(hand_landmarks.landmark[5].x * image_width),
+                                int(hand_landmarks.landmark[5].y * image_height))
 
     # Detectar letras según el lenguaje de señas del Ecuador
     if thumb_tip[1] < index_finger_tip[1] and thumb_tip[1] < middle_finger_tip[1] and thumb_tip[1] < ring_finger_tip[1] and thumb_tip[1] < pinky_tip[1]:
@@ -147,14 +150,14 @@ def procesar_gesto(hand_landmarks, image):
         and distancia_euclidiana(thumb_tip, ring_finger_tip) < 120 \
         and  pinky_pip[1] - pinky_tip[1]<0\
         and index_finger_pip[1] - index_finger_tip[1]<0:
-        return 'o'
+        return 'O'
     elif (index_finger_tip[1] < thumb_tip[1] and
         index_finger_tip[1] < middle_finger_tip[1] and
         index_finger_tip[1] < ring_finger_tip[1] and
         index_finger_tip[1] < pinky_tip[1] and
         middle_finger_tip[1] < ring_finger_tip[1] and
         middle_finger_tip[1] < pinky_tip[1] and
-        abs(thumb_tip[1] - thumb_pip[1]) < 30 and
+        abs(thumb_tip[1] - thumb_pip[1]) < 50 and
         abs(ring_finger_tip[1] - ring_finger_pip[1]) < 90 and
         abs(pinky_tip[1] - pinky_pip[1]) < 90):
         return 'P'
