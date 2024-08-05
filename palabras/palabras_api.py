@@ -179,11 +179,11 @@ def detectar_palabras():
         if results.multi_hand_landmarks:
             for hand_landmarks in results.multi_hand_landmarks:
                 draw_bounding_box(image, hand_landmarks)
-                gesture = procesar_gesto(hand_landmarks, image)
-                print("Gesto detectado:", gesture)
-                return jsonify({'gesture': gesture})
+                word = procesar_gesto(hand_landmarks, image)
+                print("Gesto detectado:", word)
+                return jsonify({'word': word})
         else:
-            return jsonify({'gesture': 'No se detectaron manos'})
+            return jsonify({'word': 'No se detectaron manos'})
     
     return Response(response='Imagen no válida', status=400)
 
