@@ -127,10 +127,10 @@ def procesar_gesto(hand_landmarks, image):
         thumb_tip[1] - thumb_pip[1] < 10):
         return 'I'
     elif (index_finger_tip[1] < middle_finger_tip[1] and  # Dedos índice y medio extendidos hacia arriba
-        thumb_tip[1] > min(index_finger_tip[1], middle_finger_tip[1]) and  # Pulgar abajo de los dedos estirados
-        thumb_tip[1] < max(index_finger_tip[1], middle_finger_tip[1]) and
-        thumb_tip[0] < max(index_finger_tip[0], middle_finger_tip[0]) and
+        thumb_tip[1] > index_finger_tip[1] and  # Pulgar por debajo del índice y medio
+        thumb_tip[1] < min(index_finger_tip[1], middle_finger_tip[1]) and
         thumb_tip[0] > min(index_finger_tip[0], middle_finger_tip[0]) and
+        thumb_tip[0] < max(index_finger_tip[0], middle_finger_tip[0]) and
         thumb_tip[1] > max(ring_finger_tip[1], pinky_tip[1]) and  # Pulgar por encima de los dedos doblados
         ring_finger_tip[1] < index_finger_tip[1] and
         pinky_tip[1] < index_finger_tip[1] and
