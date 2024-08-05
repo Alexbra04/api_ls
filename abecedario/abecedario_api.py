@@ -76,6 +76,10 @@ def procesar_gesto(hand_landmarks, image):
           pinky_pip[1] - pinky_tip[1] < 0 and 
           index_finger_pip[1] - index_finger_tip[1] > 0):
         return 'D'
+    elif abs(index_finger_tip[1] - thumb_tip[1]) < 360 and \
+        index_finger_tip[1] - middle_finger_pip[1]<0 and index_finger_tip[1] - middle_finger_tip[1] < 0 and \
+            index_finger_tip[1] - index_finger_pip[1] > 0:
+        return "C"
     elif (index_finger_pip[1] - index_finger_tip[1] < 0 and 
           pinky_pip[1] - pinky_tip[1] < 0 and 
           middle_finger_pip[1] - middle_finger_tip[1] < 0 and 
