@@ -64,12 +64,9 @@ def procesar_gesto(hand_landmarks, image):
     # Detectar letras según el lenguaje de señas del Ecuador
     if thumb_tip[1] < index_finger_tip[1] and thumb_tip[1] < middle_finger_tip[1] and thumb_tip[1] < ring_finger_tip[1] and thumb_tip[1] < pinky_tip[1]:
         return 'A'
-    elif (index_finger_pip[1] - index_finger_tip[1] > 0 and 
-          pinky_pip[1] - pinky_tip[1] > 0 and 
-          middle_finger_pip[1] - middle_finger_tip[1] > 0 and 
-          ring_finger_pip[1] - ring_finger_tip[1] > 0 and 
-          middle_finger_tip[1] - ring_finger_tip[1] < 0 and 
-          abs(thumb_tip[1] - ring_finger_pip[1]) < 40):
+    elif index_finger_pip[1] - index_finger_tip[1]>0 and pinky_pip[1] - pinky_tip[1] > 0 and \
+        middle_finger_pip[1] - middle_finger_tip[1] >0 and ring_finger_pip[1] - ring_finger_tip[1] >0 and \
+            middle_finger_tip[1] - ring_finger_tip[1] <0 and abs(thumb_tip[1] - ring_finger_pip2[1])<40:
         return 'B'
     elif (distancia_euclidiana(thumb_tip, middle_finger_tip) < 65 and 
           distancia_euclidiana(thumb_tip, ring_finger_tip) < 65 and 
@@ -82,7 +79,7 @@ def procesar_gesto(hand_landmarks, image):
         return "C"
     elif index_finger_pip[1] - index_finger_tip[1] < 0 and pinky_pip[1] - pinky_tip[1] < 0 and \
         middle_finger_pip[1] - middle_finger_tip[1] < 0 and ring_finger_pip[1] - ring_finger_tip[1] < 0 \
-            and abs(index_finger_tip[1] - thumb_tip[1]) < 100 and \
+            and abs(index_finger_tip[1] - thumb_tip[1]) > 100 and \
                 thumb_tip[1] - index_finger_tip[1] > 0 \
                 and thumb_tip[1] - middle_finger_tip[1] > 0 \
                 and thumb_tip[1] - ring_finger_tip[1] > 0 \
@@ -138,6 +135,14 @@ def procesar_gesto(hand_landmarks, image):
         and  pinky_pip[1] - pinky_tip[1]<0\
         and index_finger_pip[1] - index_finger_tip[1]>0:
         return 'L'
+    elif index_finger_pip[1] - index_finger_tip[1] < 0 and pinky_pip[1] - pinky_tip[1] < 0 and \
+        middle_finger_pip[1] - middle_finger_tip[1] < 0 and ring_finger_pip[1] - ring_finger_tip[1] < 0 \
+            and abs(index_finger_tip[1] - thumb_tip[1]) < 30 and \
+                thumb_tip[1] - index_finger_tip[1] > 0 \
+                and thumb_tip[1] - middle_finger_tip[1] > 0 \
+                and thumb_tip[1] - ring_finger_tip[1] > 0 \
+                and thumb_tip[1] - pinky_tip[1] > 0:
+        return 'M'
 # Ruta para detectar gestos
 @abecedario_api.route('/detectar_abecedario', methods=['POST'])
 def detectar_abecedario():
