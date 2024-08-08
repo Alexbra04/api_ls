@@ -79,7 +79,8 @@ def procesar_gesto(hand_landmarks, image):
     for regla in reglas:
         if eval(regla['condition']):
             return regla['letter']
-    
+        
+    return "No se detectó un gesto válido"
 # Ruta para detectar gestos
 @abecedario_api.route('/detectar_abecedario', methods=['POST'])
 def detectar_abecedario():
