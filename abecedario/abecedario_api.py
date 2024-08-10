@@ -63,7 +63,6 @@ def procesar_gesto(hand_landmarks, image):
     
     ring_finger_pip2 = (int(hand_landmarks.landmark[5].x * image_width),
                                 int(hand_landmarks.landmark[5].y * image_height))
-<<<<<<< HEAD
 
 
     if thumb_tip[1] < index_finger_tip[1] and thumb_tip[1] < middle_finger_tip[1] and thumb_tip[1] < ring_finger_tip[1] and thumb_tip[1] < pinky_tip[1]:
@@ -161,11 +160,6 @@ def procesar_gesto(hand_landmarks, image):
         pinky_pip[1] < pinky_tip[1] and
         abs(thumb_tip[0] - index_finger_pip[0]) < 30):
         return 'P'
-=======
-        for regla in reglas:
-        if eval(regla['condition']):
-            return regla['letter']
->>>>>>> d87caa7f97a999f4dca9b7e3b70fe9b28e6a18a4
 # Ruta para detectar gestos
 @abecedario_api.route('/detectar_abecedario', methods=['POST'])
 def detectar_abecedario():
