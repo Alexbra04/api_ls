@@ -64,7 +64,7 @@ def procesar_gesto(hand_landmarks, image):
     ring_finger_pip2 = (int(hand_landmarks.landmark[5].x * image_width),
                                 int(hand_landmarks.landmark[5].y * image_height))
 
-    # Detectar letras según el lenguaje de señas del Ecuador
+
     if thumb_tip[1] < index_finger_tip[1] and thumb_tip[1] < middle_finger_tip[1] and thumb_tip[1] < ring_finger_tip[1] and thumb_tip[1] < pinky_tip[1]:
         return 'A'
     elif index_finger_pip[1] - index_finger_tip[1]>0 and pinky_pip[1] - pinky_tip[1] > 0 and \
