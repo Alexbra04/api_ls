@@ -15,7 +15,7 @@ mp_drawing_styles = mp.solutions.drawing_styles
 mp_hands = mp.solutions.hands
 hands = mp_hands.Hands(
     static_image_mode=False,
-    max_num_hands=2,
+    max_num_hands=1,
     min_detection_confidence=0.5,
     min_tracking_confidence=0.5)
 
@@ -101,7 +101,13 @@ def procesar_gesto(hand_landmarks, image):
         ring_finger_tip[1] > ring_finger_pip[1] and 
         pinky_tip[1] < pinky_pip[1]): 
         return 'Amigo'
-
+    elif (thumb_tip[1] < thumb_pip[1] and  # Pulgar inclinado hacia la palma
+        index_finger_tip[1] < index_finger_pip[1] and  # Dedo índice extendido
+        middle_finger_tip[1] < middle_finger_pip[1] and  # Dedo medio extendido
+        ring_finger_tip[1] < ring_finger_pip[1] and  # Dedo anular extendido
+        pinky_tip[1] < pinky_pip[1]):
+        return 'Mama'
+        
 # Ruta para detectar gestos
 @palabras_api.route('/detectar_palabras', methods=['POST'])
 def detectar_palabras():
