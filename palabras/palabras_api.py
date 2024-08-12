@@ -95,6 +95,11 @@ def procesar_gesto(hand_landmarks, image):
         ring_finger_pip[0] > ring_finger_tip[0] and
         abs(index_finger_tip[0] - thumb_tip[0]) < 360):
         return 'Mal'
+    elif (index_finger_tip[1] < thumb_tip[1] and
+          middle_finger_tip[1] > thumb_tip[1] and
+          ring_finger_tip[1] > thumb_tip[1] and
+          pinky_tip[1] > thumb_tip[1]):
+        return 'Amigo'
 
 # Ruta para detectar gestos
 @palabras_api.route('/detectar_palabras', methods=['POST'])
