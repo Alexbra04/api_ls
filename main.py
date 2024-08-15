@@ -13,5 +13,5 @@ app.register_blueprint(palabras_api)
 def index():
     return jsonify({'message': 'Bienvenido al API de lenguaje de señas en tiempo real'})
 
-if __name__ == '__main__':
-    app.run()
+#if __name__ == '__main__':
+    #app.run(host='0.0.0.0', port=5000, debug=True)
