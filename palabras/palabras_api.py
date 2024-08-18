@@ -80,16 +80,6 @@ def procesar_gesto(hand_landmarks, image):
         index_finger_tip[1] < thumb_tip[1] and
         middle_finger_tip[1] < ring_finger_tip[1]):
         return 'Casa'
-    elif len(results.multi_hand_landmarks) == 2:
-        hand1 = results.multi_hand_landmarks[0]
-        hand2 = results.multi_hand_landmarks[1]
-        hand1_tip = (int(hand1.landmark[8].x * image_width), int(hand1.landmark[8].y * image_height))
-        hand2_tip = (int(hand2.landmark[8].x * image_width), int(hand2.landmark[8].y * image_height))
-        distance = distancia_euclidiana(hand1_tip, hand2_tip)
-        
-        # If hands are close enough, recognize as "Amigo"
-        if distance < 100:  # Adjust threshold as needed
-        return 'Amigo'
     
 # Ruta para detectar gestos
 @palabras_api.route('/detectar_palabras', methods=['POST'])
@@ -114,8 +104,6 @@ def detectar_palabras():
                     word = procesar_gesto(hand_landmarks, image)
                     print("Gesto detectado:", word)
                     return jsonify({'word': word})
-            # Aseguramos que si no se detecta ninguna mano, retornamos el mensaje adecuado
-            return jsonify({'word': 'No se detectaron manos'})
         else:
             return jsonify({'word': 'No se detectaron manos'})
     
