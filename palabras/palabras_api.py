@@ -82,16 +82,6 @@ def procesar_gesto(hand_landmarks, image):
         ring_finger_tip[1] > ring_finger_pip[1] and 
         pinky_tip[1] < pinky_pip[1]): 
         return 'Amigo'
-    elif (abs(index_finger_tip[1] - thumb_tip[1]) < 150 and
-        abs(middle_finger_tip[1] - thumb_tip[1]) < 150 and
-        abs(ring_finger_tip[1] - thumb_tip[1]) < 150 and
-        abs(pinky_tip[1] - thumb_tip[1]) < 150 and
-        abs(index_finger_tip[0] - thumb_tip[0]) < 150 and
-        abs(middle_finger_tip[0] - thumb_tip[0]) < 150 and
-        abs(ring_finger_tip[0] - thumb_tip[0]) < 150 and
-        abs(pinky_tip[0] - thumb_tip[0]) < 150 and
-        all([finger_tip[1] < finger_pip[1] for finger_tip, finger_pip in zip([index_finger_tip, middle_finger_tip, ring_finger_tip, pinky_tip], [index_finger_pip, middle_finger_pip, ring_finger_pip, pinky_pip])])):
-        return 'Gracias'
     elif (thumb_tip[0] < index_finger_tip[0] and
         index_finger_tip[1] < thumb_tip[1] and
         middle_finger_tip[1] < ring_finger_tip[1]):
