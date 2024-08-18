@@ -79,9 +79,9 @@ def procesar_gesto(hand_landmarks, image):
             thumb_tip[1] - pinky_tip[1] > 0):   
             return 'Te Quiero'
         elif (thumb_tip[0] < index_finger_tip[0] and
-            index_finger_tip[1] < thumb_tip[1] and
-            middle_finger_tip[1] < ring_finger_tip[1]):
-            return 'Casa'
+             index_finger_tip[1] < thumb_tip[1] and
+             middle_finger_tip[1] < ring_finger_tip[1]):
+             return 'Casa'
         elif (thumb_tip[1] < thumb_pip[1] and 
             index_finger_tip[1] > index_finger_pip[1] and 
             middle_finger_tip[1] > middle_finger_pip[1] and
