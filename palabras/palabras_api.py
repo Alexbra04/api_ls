@@ -61,10 +61,9 @@ def procesar_gesto(hand_landmarks, image):
                  int(hand_landmarks.landmark[20].y * image_height))
     pinky_pip = (int(hand_landmarks.landmark[18].x * image_width),
                  int(hand_landmarks.landmark[18].y * image_height))
-    wrist = (int(hand_landmarks.landmark[0].x * image_width),
-                int(hand_landmarks.landmark[0].y * image_height))
+    
     ring_finger_pip2 = (int(hand_landmarks.landmark[5].x * image_width),
-                    int(hand_landmarks.landmark[5].y * image_height))       
+                                int(hand_landmarks.landmark[5].y * image_height))     
 
     # Detectar letras según el lenguaje de señas del Ecuador
     if (index_finger_pip[1] - index_finger_tip[1] > 0 and
