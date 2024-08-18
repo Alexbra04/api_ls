@@ -108,7 +108,10 @@ def detectar_palabras():
                 draw_bounding_box(image, hand_landmarks)
                 word = procesar_gesto(hand_landmarks, image)
                 print("Gesto detectado:", word)
-                return jsonify({'word': word})
+                # Codificar la imagen procesada a base64
+                image_base64_output = encode_image_to_base64(image)
+                
+                return jsonify({'word': word, 'image': image_base64_output})
         else:
             return jsonify({'word': 'No se detectaron manos'})
     
