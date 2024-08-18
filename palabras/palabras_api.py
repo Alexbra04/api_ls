@@ -16,8 +16,8 @@ mp_hands = mp.solutions.hands
 hands = mp_hands.Hands(
     static_image_mode=False,
     max_num_hands=2,
-    min_detection_confidence=0.7,
-    min_tracking_confidence=0.7)
+    min_detection_confidence=0.5,
+    min_tracking_confidence=0.5)
 
 def distancia_euclidiana(p1, p2):
     d = np.sqrt((p2[0] - p1[0]) ** 2 + (p2[1] - p1[1]) ** 2)
@@ -108,10 +108,7 @@ def detectar_palabras():
                 draw_bounding_box(image, hand_landmarks)
                 word = procesar_gesto(hand_landmarks, image)
                 print("Gesto detectado:", word)
-                # Codificar la imagen procesada a base64
-                image_base64_output = encode_image_to_base64(image)
-                
-                return jsonify({'word': word, 'image': image_base64_output})
+                return jsonify({'word': word})
         else:
             return jsonify({'word': 'No se detectaron manos'})
     
