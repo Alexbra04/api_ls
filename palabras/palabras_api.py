@@ -63,18 +63,14 @@ def procesar_gesto(hand_landmarks, image):
     
     ring_finger_pip2 = (int(hand_landmarks.landmark[5].x * image_width),
                                 int(hand_landmarks.landmark[5].y * image_height))
+    
+      # Ajuste de umbrales para precisión
+    umbral_distancia = 300  
+    umbral_similaridad = 150  
 
-    # Detectar letras según el lenguaje de señas del Ecuador
-    if (index_finger_pip[1] - index_finger_tip[1] > 0 and
-        pinky_pip[1] - pinky_tip[1] > 0 and
-        middle_finger_pip[1] - middle_finger_tip[1] < 0 and
-        ring_finger_pip[1] - ring_finger_tip[1] < 0 and
-        abs(index_finger_tip[1] - thumb_tip[1]) < 360 and
-        thumb_tip[1] - index_finger_tip[1] > 0 and
-        thumb_tip[1] - middle_finger_tip[1] > 0 and
-        thumb_tip[1] - ring_finger_tip[1] > 0 and
-        thumb_tip[1] - pinky_tip[1] > 0):
-        return 'Te Quiero'
+    if distancia_euclidiana(index_finger_tip, thumb_tip) < umbral_distancia:
+        if distancia_euclidiana(index_finger_tip, middle_finger_tip) < umbral_similaridad:
+            return 'Te Quiero'
     elif (thumb_tip[0] > index_finger_tip[0] and
         thumb_tip[0] > middle_finger_tip[0] and
         thumb_tip[0] > ring_finger_tip[0] and
@@ -153,8 +149,14 @@ def detectar_palabras():
             for hand_landmarks in results.multi_hand_landmarks:
                 draw_bounding_box(image, hand_landmarks)
                 word = procesar_gesto(hand_landmarks, image)
-                print("Gesto detectado:", word)
-                return jsonify({'word': word})
+                # Codificar imagen procesada a base64
+                _, buffer = cv2.imencode('.jpg', image)
+                image_base64_processed = base64.b64encode(buffer).decode('utf-8')
+                
+                return jsonify({
+                    'word': word,
+                    'image': image_base64_processed
+                })
         else:
             return jsonify({'word': 'No se detectaron manos'})
     
