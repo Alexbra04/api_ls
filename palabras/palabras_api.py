@@ -114,6 +114,8 @@ def detectar_palabras():
                     word = procesar_gesto(hand_landmarks, image)
                     print("Gesto detectado:", word)
                     return jsonify({'word': word})
+            # Aseguramos que si no se detecta ninguna mano, retornamos el mensaje adecuado
+            return jsonify({'word': 'No se detectaron manos'})
         else:
             return jsonify({'word': 'No se detectaron manos'})
     
