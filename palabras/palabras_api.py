@@ -60,7 +60,8 @@ def procesar_gesto(hand_landmarks, image):
                  int(hand_landmarks.landmark[20].y * image_height))
     pinky_pip = (int(hand_landmarks.landmark[18].x * image_width),
                  int(hand_landmarks.landmark[18].y * image_height))
-    
+    wrist = (int(hand_landmarks.landmark[0].x * image_width),
+                int(hand_landmarks.landmark[0].y * image_height))
     ring_finger_pip2 = (int(hand_landmarks.landmark[5].x * image_width),
                                 int(hand_landmarks.landmark[5].y * image_height))       
 
@@ -81,18 +82,6 @@ def procesar_gesto(hand_landmarks, image):
         ring_finger_tip[1] > ring_finger_pip[1] and 
         pinky_tip[1] < pinky_pip[1]): 
         return 'Amigo'
-    elif (thumb_tip[1] < thumb_pip[1] and  
-        index_finger_tip[1] < index_finger_pip[1] and 
-        middle_finger_tip[1] < middle_finger_pip[1] and 
-        ring_finger_tip[1] < ring_finger_pip[1] and 
-        pinky_tip[1] < pinky_pip[1]):
-        return 'Mama'
-    elif (thumb_tip[1] < thumb_pip[1] and  
-        index_finger_tip[1] < index_finger_pip[1] and 
-        middle_finger_tip[1] > middle_finger_pip[1] and 
-        ring_finger_tip[1] > ring_finger_pip[1] and 
-        pinky_tip[1] > pinky_pip[1]):
-        return 'Papa'
     elif (abs(index_finger_tip[1] - thumb_tip[1]) < 150 and
         abs(middle_finger_tip[1] - thumb_tip[1]) < 150 and
         abs(ring_finger_tip[1] - thumb_tip[1]) < 150 and
