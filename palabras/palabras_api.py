@@ -64,9 +64,6 @@ def procesar_gesto(hand_landmarks, image):
     ring_finger_pip2 = (int(hand_landmarks.landmark[5].x * image_width),
                                 int(hand_landmarks.landmark[5].y * image_height))
     
-      # Ajuste de umbrales para precisión
-    umbral_distancia = 300  
-    umbral_similaridad = 150  
 
         if (index_finger_pip[1] - index_finger_tip[1] > 0 and
             pinky_pip[1] - pinky_tip[1] > 0 and
