@@ -80,7 +80,7 @@ def procesar_gesto(hand_landmarks, image):
         index_finger_tip[1] < thumb_tip[1] and
         middle_finger_tip[1] < ring_finger_tip[1]):
         return 'Casa'
-    
+
 # Ruta para detectar gestos
 @palabras_api.route('/detectar_palabras', methods=['POST'])
 def detectar_palabras():
@@ -98,12 +98,11 @@ def detectar_palabras():
         results = hands.process(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
 
         if results.multi_hand_landmarks:
-            if len(results.multi_hand_landmarks) >= 1:
-                for num, hand_landmarks in enumerate(results.multi_hand_landmarks):
-                    draw_bounding_box(image, hand_landmarks)
-                    word = procesar_gesto(hand_landmarks, image)
-                    print("Gesto detectado:", word)
-                    return jsonify({'word': word})
+            for hand_landmarks in results.multi_hand_landmarks:
+                draw_bounding_box(image, hand_landmarks)
+                word = procesar_gesto(hand_landmarks, image)
+                print("Gesto detectado:", word)
+                return jsonify({'word': word})
         else:
             return jsonify({'word': 'No se detectaron manos'})
     
