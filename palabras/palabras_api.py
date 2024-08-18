@@ -78,26 +78,10 @@ def procesar_gesto(hand_landmarks, image):
             thumb_tip[1] - ring_finger_tip[1] > 0 and
             thumb_tip[1] - pinky_tip[1] > 0):   
             return 'Te Quiero'
-        elif (thumb_tip[0] > index_finger_tip[0] and
-            thumb_tip[0] > middle_finger_tip[0] and
-            thumb_tip[0] > ring_finger_tip[0] and
-            thumb_tip[0] > pinky_tip[0] and
-            index_finger_pip[0] < index_finger_tip[0] and
-            pinky_pip[0] < pinky_tip[0] and
-            middle_finger_pip[0] < middle_finger_tip[0] and
-            ring_finger_pip[0] < ring_finger_tip[0] and
-            abs(index_finger_tip[0] - thumb_tip[0]) < 360):
-            return 'Bien'
         elif (thumb_tip[0] < index_finger_tip[0] and
-            thumb_tip[0] < middle_finger_tip[0] and
-            thumb_tip[0] < ring_finger_tip[0] and
-            thumb_tip[0] < pinky_tip[0] and
-            index_finger_pip[0] > index_finger_tip[0] and
-            pinky_pip[0] > pinky_tip[0] and
-            middle_finger_pip[0] > middle_finger_tip[0] and
-            ring_finger_pip[0] > ring_finger_tip[0] and
-            abs(index_finger_tip[0] - thumb_tip[0]) < 360):
-            return 'Mal'
+            index_finger_tip[1] < thumb_tip[1] and
+            middle_finger_tip[1] < ring_finger_tip[1]):
+            return 'Casa'
         elif (thumb_tip[1] < thumb_pip[1] and 
             index_finger_tip[1] > index_finger_pip[1] and 
             middle_finger_tip[1] > middle_finger_pip[1] and
@@ -126,15 +110,6 @@ def procesar_gesto(hand_landmarks, image):
             abs(pinky_tip[0] - thumb_tip[0]) < 150 and
             all([finger_tip[1] < finger_pip[1] for finger_tip, finger_pip in zip([index_finger_tip, middle_finger_tip, ring_finger_tip, pinky_tip], [index_finger_pip, middle_finger_pip, ring_finger_pip, pinky_pip])])):
             return 'Gracias'
-        elif (abs(index_finger_tip[0] - thumb_tip[0]) < 300 and
-            abs(index_finger_tip[1] - thumb_tip[1]) < 300 and
-            abs(pinky_tip[0] - thumb_tip[0]) < 300 and
-            abs(pinky_tip[1] - thumb_tip[1]) < 300 and
-            abs(ring_finger_tip[0] - thumb_tip[0]) < 300 and
-            abs(ring_finger_tip[1] - thumb_tip[1]) < 300 and
-            abs(middle_finger_tip[0] - thumb_tip[0]) < 300 and
-            abs(middle_finger_tip[1] - thumb_tip[1]) < 300):
-            return 'Casa'
 
 # Ruta para detectar gestos
 @palabras_api.route('/detectar_palabras', methods=['POST'])
