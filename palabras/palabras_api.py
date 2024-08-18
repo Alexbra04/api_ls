@@ -78,8 +78,15 @@ def procesar_gesto(hand_landmarks, image):
         return 'Te Quiero'
     elif (thumb_tip[0] < index_finger_tip[0] and
         index_finger_tip[1] < thumb_tip[1] and
-        middle_finger_tip[1] < ring_finger_tip[1]):
+        middle_finger_tip[1] < ring_finger_tip[1] and
+        not (index_finger_tip[1] < thumb_tip[1] and
+            thumb_tip[1] < index_finger_pip[1] and
+            middle_finger_tip[1] < ring_finger_tip[1])):
         return 'Casa'
+    elif (index_finger_tip[1] < thumb_tip[1] and
+        thumb_tip[1] < index_finger_pip[1] and
+        middle_finger_tip[1] < ring_finger_tip[1]):
+        return 'Mamá'
 
 # Ruta para detectar gestos
 @palabras_api.route('/detectar_palabras', methods=['POST'])
