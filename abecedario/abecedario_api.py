@@ -184,7 +184,7 @@ def detectar_abecedario():
         # Procesar la imagen con MediaPipe Hands
         results = hands.process(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
 
-         if results.multi_hand_landmarks:
+        if results.multi_hand_landmarks:
             for hand_landmarks in results.multi_hand_landmarks:
                 draw_bounding_box(image, hand_landmarks)
                 gesture = procesar_gesto(hand_landmarks, image)
