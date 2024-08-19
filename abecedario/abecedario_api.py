@@ -197,8 +197,9 @@ def detectar_abecedario():
                 # Obtener la imagen del gesto
                 if gesture in imagenes_letras:
                     letra_image = imagenes_letras[gesture]
-                    letra_image_resized = cv2.resize(letra_image, (100, 100))
-                    image[0:100, 0:100] = letra_image_resized
+                    letra_image_resized = cv2.resize(letra_image, (50, 50))
+                    x_offset, y_offset = 10, 10
+                    image[y_offset:y_offset+letra_image_resized.shape[0], x_offset:x_offset+letra_image_resized.shape[1]]  = letra_image_resized
                 
                 # Dibujar las marcas de la mano
                 mp_drawing.draw_landmarks(
