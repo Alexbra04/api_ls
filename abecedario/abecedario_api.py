@@ -19,6 +19,14 @@ hands = mp_hands.Hands(
     min_detection_confidence=0.5,
     min_tracking_confidence=0.5)
 
+carpeta_imagenes = os.path.join(BASE_DIR, 'abc')
+
+imagenes_letras = {
+    'A': cv2.imread(os.path.join(carpeta_imagenes, 'A.png')),
+    'D': cv2.imread(os.path.join(carpeta_imagenes, 'B.png')),
+    # Agrega más letras aquí
+}
+
 def distancia_euclidiana(p1, p2):
     d = np.sqrt((p2[0] - p1[0]) ** 2 + (p2[1] - p1[1]) ** 2)
     return d
@@ -178,12 +186,29 @@ def detectar_abecedario():
 
         if results.multi_hand_landmarks:
             for hand_landmarks in results.multi_hand_landmarks:
+                # Detectar gesto y obtener la letra correspondiente
+                letra_detectada = procesar_gesto(hand_landmarks, image)
+                
+                if letra_detectada in imagenes_letras:
+                    # Superponer la imagen de la letra detectada
+                    letra_image = imagenes_letras[letra_detectada]
+                    letra_image_resized = cv2.resize(letra_image, (100, 100))
+                    image[0:100, 0:100] = letra_image_resized
+                
+                # Dibujar las marcas de la mano y el bounding box
+                mp_drawing.draw_landmarks(
+                    image, hand_landmarks, mp_hands.HAND_CONNECTIONS,
+                    mp_drawing_styles.get_default_hand_landmarks_style(),
+                    mp_drawing_styles.get_default_hand_connections_style())
                 draw_bounding_box(image, hand_landmarks)
-                gesture = procesar_gesto(hand_landmarks, image)
-                print("Gesto detectado:", gesture)
-                return jsonify({'gesture': gesture})
+            
+            # Codificar la imagen de vuelta a base64
+            _, buffer = cv2.imencode('.jpg', image)
+            image_base64 = base64.b64encode(buffer).decode('utf-8')
+
+            return jsonify({"image": image_base64, "letra": letra_detectada})
         else:
-            return jsonify({'gesture': 'No se detectarón manos'})
+            return jsonify({"message": "No se detectaron manos"})
     
     return Response(response='Imagen no válida', status=400)
 
