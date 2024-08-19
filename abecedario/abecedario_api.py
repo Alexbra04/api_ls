@@ -181,6 +181,11 @@ def detectar_abecedario():
         image = np.array(image)
         image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
 
+        height, width, _ = image.shape
+        new_width = 640
+        new_height = int((new_width / width) * height)
+        image = cv2.resize(image, (new_width, new_height))
+
         # Procesar la imagen con MediaPipe Hands
         results = hands.process(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
 
