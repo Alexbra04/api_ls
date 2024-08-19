@@ -208,7 +208,7 @@ def detectar_abecedario():
                     mp_drawing_styles.get_default_hand_connections_style())
             
             # Codificar la imagen de vuelta a base64
-            _, buffer = cv2.imencode('.jpg', image)
+            _, buffer = cv2.imencode('.png', image)
             image_base64 = base64.b64encode(buffer).decode('utf-8')
 
             return jsonify({"image": image_base64, "gesture": gesture})
