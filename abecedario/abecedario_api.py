@@ -19,8 +19,6 @@ hands = mp_hands.Hands(
     min_detection_confidence=0.5,
     min_tracking_confidence=0.5)
 
-IMAGES_PATH = '/abc/'
-
 def distancia_euclidiana(p1, p2):
     d = np.sqrt((p2[0] - p1[0]) ** 2 + (p2[1] - p1[1]) ** 2)
     return d
@@ -162,12 +160,6 @@ def procesar_gesto(hand_landmarks, image):
         pinky_pip[1] < pinky_tip[1] and
         abs(thumb_tip[0] - index_finger_pip[0]) < 30):
         return 'P'
-
-
-def get_image_path(letter):
-    # Genera la ruta completa para la imagen correspondiente a la letra
-    return os.path.join(IMAGES_PATH, f"{letter}.png")
-
 # Ruta para detectar gestos
 @abecedario_api.route('/detectar_abecedario', methods=['POST'])
 def detectar_abecedario():
@@ -188,20 +180,12 @@ def detectar_abecedario():
             for hand_landmarks in results.multi_hand_landmarks:
                 draw_bounding_box(image, hand_landmarks)
                 gesture = procesar_gesto(hand_landmarks, image)
-                
-                if gesture:
-                    image_path = get_image_path(gesture)
-                    if os.path.exists(image_path):
-                        with open(image_path, "rb") as img_file:
-                            img_bytes = img_file.read()
-                            img_base64 = base64.b64encode(img_bytes).decode('utf-8')
-                        return jsonify({"gesture": gesture, "image": img_base64})
-                    else:
-                        return jsonify({"error": "Imagen no encontrada para la letra detectada."}), 404
-        
-        return jsonify({"error": "No se detectarón manos."}), 400
+                print("Gesto detectado:", gesture)
+                return jsonify({'gesture': gesture})
+        else:
+            return jsonify({'gesture': 'No se detectaron manos'})
     
-    return jsonify({"error": "No se proporcionó una imagen válida."}), 400
+    return Response(response='Imagen no válida', status=400)
 
 if __name__ == '__main__':
     from flask import Flask
