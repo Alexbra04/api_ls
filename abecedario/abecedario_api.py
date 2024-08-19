@@ -4,6 +4,7 @@ import mediapipe as mp
 import numpy as np
 import threading
 import base64
+import os
 from io import BytesIO
 from PIL import Image
 
@@ -19,6 +20,7 @@ hands = mp_hands.Hands(
     min_detection_confidence=0.5,
     min_tracking_confidence=0.5)
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 carpeta_imagenes = os.path.join(BASE_DIR, 'abc')
 
 # Asegúrate de que las imágenes se carguen correctamente
