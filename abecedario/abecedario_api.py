@@ -183,7 +183,7 @@ def detectar_abecedario():
                 print("Gesto detectado:", gesture)
                 return jsonify({'gesture': gesture})
         else:
-            return jsonify({'gesture': 'No se detectaron manos'})
+            return jsonify({'gesture': 'No se detectarón manos'})
     
     return Response(response='Imagen no válida', status=400)
 
