@@ -194,25 +194,18 @@ def detectar_abecedario():
                 draw_bounding_box(image, hand_landmarks)
                 gesture = procesar_gesto(hand_landmarks, image)
                 print("Gesto detectado:", gesture)
-                # Obtener la imagen del gesto
+
+                gesture_image_base64 = None
                 if gesture in imagenes_letras:
                     letra_image = imagenes_letras[gesture]
-                    letra_image_resized = cv2.resize(letra_image, (50, 50))
-                    x_offset, y_offset = 10, 10
-                    if x_offset + letra_image_resized.shape[1] <= image.shape[1] and y_offset + letra_image_resized.shape[0] <= image.shape[0]:
-                        image[y_offset:y_offset + letra_image_resized.shape[0], x_offset:x_offset + letra_image_resized.shape[1]] = letra_image_resized
+                    _, buffer = cv2.imencode('.png', letra_image)
+                    gesture_image_base64 = base64.b64encode(buffer).decode('utf-8')
                 
-                # Dibujar las marcas de la mano
-                mp_drawing.draw_landmarks(
-                    image, hand_landmarks, mp_hands.HAND_CONNECTIONS,
-                    mp_drawing_styles.get_default_hand_landmarks_style(),
-                    mp_drawing_styles.get_default_hand_connections_style())
-            
-            # Codificar la imagen de vuelta a base64
-            _, buffer = cv2.imencode('.png', image)
-            image_base64 = base64.b64encode(buffer).decode('utf-8')
+                # Codificar la imagen procesada de vuelta a base64
+                _, buffer = cv2.imencode('.png', image)
+                processed_image_base64 = base64.b64encode(buffer).decode('utf-8')
 
-            return jsonify({"image": image_base64, "gesture": gesture})
+            return jsonify({"image": processed_image_base64, "gesture": gesture, "gesture_image": gesture_image_base64})
         else:
             return jsonify({"gesture": "No se detectaron manos"})
     
