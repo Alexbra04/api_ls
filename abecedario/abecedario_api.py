@@ -19,6 +19,17 @@ hands = mp_hands.Hands(
     min_detection_confidence=0.5,
     min_tracking_confidence=0.5)
 
+carpeta_imagenes = os.path.join(BASE_DIR, 'abc')
+
+# Asegúrate de que las imágenes se carguen correctamente
+imagenes_letras = {}
+for letra in ['A', 'D']:  # Agrega aquí todas las letras necesarias
+    imagen_path = os.path.join(carpeta_imagenes, f'{letra}.png')
+    if os.path.exists(imagen_path):
+        imagenes_letras[letra] = cv2.imread(imagen_path)
+    else:
+        print(f'No se encontró la imagen para la letra: {letra}')
+
 def distancia_euclidiana(p1, p2):
     d = np.sqrt((p2[0] - p1[0]) ** 2 + (p2[1] - p1[1]) ** 2)
     return d
