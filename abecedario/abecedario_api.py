@@ -205,10 +205,10 @@ def detectar_abecedario():
                         image[y_offset:y_offset + letra_image_resized.shape[0], x_offset:x_offset + letra_image_resized.shape[1]] = letra_image_resized
                 
                 # Dibujar las marcas de la mano
-                mp_drawing.draw_landmarks(
-                    image, hand_landmarks, mp_hands.HAND_CONNECTIONS,
-                    mp_drawing_styles.get_default_hand_landmarks_style(),
-                    mp_drawing_styles.get_default_hand_connections_style())
+                #mp_drawing.draw_landmarks(
+                    #image, hand_landmarks, mp_hands.HAND_CONNECTIONS,
+                    #mp_drawing_styles.get_default_hand_landmarks_style(),
+                    #mp_drawing_styles.get_default_hand_connections_style())
             
             # Codificar la imagen de vuelta a base64
             _, buffer = cv2.imencode('.png', image)
