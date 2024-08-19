@@ -23,7 +23,7 @@ carpeta_imagenes = os.path.join(BASE_DIR, 'abc')
 
 imagenes_letras = {
     'A': cv2.imread(os.path.join(carpeta_imagenes, 'A.png')),
-    'D': cv2.imread(os.path.join(carpeta_imagenes, 'B.png')),
+    'D': cv2.imread(os.path.join(carpeta_imagenes, 'D.png')),
     # Agrega más letras aquí
 }
 
