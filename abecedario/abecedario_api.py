@@ -87,15 +87,13 @@ def procesar_gesto(hand_landmarks, image):
                                 int(hand_landmarks.landmark[5].y * image_height))
 
 
-    if abs(thumb_tip[1] - index_finger_pip[1]) <45 \
-        and abs(thumb_tip[1] - middle_finger_pip[1]) < 30 and abs(thumb_tip[1] - ring_finger_pip[1]) < 30\
-        and abs(thumb_tip[1] - pinky_pip[1]) < 30:
+    if thumb_tip[1] < index_finger_tip[1] and thumb_tip[1] < middle_finger_tip[1] and thumb_tip[1] < ring_finger_tip[1] and thumb_tip[1] < pinky_tip[1]:
         letra = 'A'
         icono_base64 = load_image_as_base64('A.png')
         
     elif index_finger_pip[1] - index_finger_tip[1]>0 and pinky_pip[1] - pinky_tip[1] > 0 and \
         middle_finger_pip[1] - middle_finger_tip[1] >0 and ring_finger_pip[1] - ring_finger_tip[1] >0 and \
-            middle_finger_tip[1] - ring_finger_tip[1] <0 and abs(thumb_tip[1] - ring_finger_pip2[1])<20:
+            middle_finger_tip[1] - ring_finger_tip[1] <0 and abs(thumb_tip[1] - ring_finger_pip2[1])<40:
         letra = 'B'
         icono_base64 = load_image_as_base64('B.png')
 
