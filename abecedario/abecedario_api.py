@@ -84,21 +84,19 @@ def procesar_gesto(hand_landmarks, image):
                  int(hand_landmarks.landmark[18].y * image_height))
 
     wrist = (int(hand_landmarks.landmark[0].x * image_width),
-                int(hand_landmarks.landmark[0].y * image_height))
+                                int(hand_landmarks.landmark[0].y * image_height))
     
     ring_finger_pip2 = (int(hand_landmarks.landmark[5].x * image_width),
-                    int(hand_landmarks.landmark[5].y * image_height))
+                                int(hand_landmarks.landmark[5].y * image_height))
 
 
-    if abs(thumb_tip[1] - index_finger_pip[1]) <45 \
-        and abs(thumb_tip[1] - middle_finger_pip[1]) < 30 and abs(thumb_tip[1] - ring_finger_pip[1]) < 30\
-        and abs(thumb_tip[1] - pinky_pip[1]) < 30:
+    if thumb_tip[1] < index_finger_tip[1] and thumb_tip[1] < middle_finger_tip[1] and thumb_tip[1] < ring_finger_tip[1] and thumb_tip[1] < pinky_tip[1]:
         letra = 'A'
         icono_base64 = load_image_as_base64('A.png')
-
+        
     elif index_finger_pip[1] - index_finger_tip[1]>0 and pinky_pip[1] - pinky_tip[1] > 0 and \
         middle_finger_pip[1] - middle_finger_tip[1] >0 and ring_finger_pip[1] - ring_finger_tip[1] >0 and \
-            middle_finger_tip[1] - ring_finger_tip[1] <0 and abs(thumb_tip[1] - ring_finger_pip2[1])<20:
+            middle_finger_tip[1] - ring_finger_tip[1] <0 and abs(thumb_tip[1] - ring_finger_pip2[1])<90:
         letra = 'B'
         icono_base64 = load_image_as_base64('B.png')
 
@@ -108,7 +106,91 @@ def procesar_gesto(hand_landmarks, image):
           index_finger_pip[1] - index_finger_tip[1] > 0):
         letra = 'D'
         icono_base64 = load_image_as_base64('D.png')
-    
+        
+    elif abs(index_finger_tip[1] - thumb_tip[1]) < 380 and \
+        index_finger_tip[1] - middle_finger_pip[1]<0 and index_finger_tip[1] - middle_finger_tip[1] < 0 and \
+            index_finger_tip[1] - index_finger_pip[1] > 0:
+        return "C"
+    elif index_finger_pip[1] - index_finger_tip[1] < 0 and pinky_pip[1] - pinky_tip[1] < 0 and \
+        middle_finger_pip[1] - middle_finger_tip[1] < 0 and ring_finger_pip[1] - ring_finger_tip[1] < 0 \
+            and abs(index_finger_tip[1] - thumb_tip[1]) > 100 and \
+                thumb_tip[1] - index_finger_tip[1] > 0 \
+                and thumb_tip[1] - middle_finger_tip[1] > 0 \
+                and thumb_tip[1] - ring_finger_tip[1] > 0 \
+                and thumb_tip[1] - pinky_tip[1] > 0:
+        return 'E'
+    elif (pinky_pip[1] - pinky_tip[1] > 0 and 
+          middle_finger_pip[1] - middle_finger_tip[1] > 0 and 
+          ring_finger_pip[1] - ring_finger_tip[1] > 0 and 
+          index_finger_pip[1] - index_finger_tip[1] < 0 and 
+          abs(thumb_pip[1] - thumb_tip[1]) > 0 and 
+          distancia_euclidiana(index_finger_tip, thumb_tip) < 65):
+        return 'F'
+    elif (index_finger_tip[1] < thumb_tip[1] and
+          index_finger_tip[1] < middle_finger_tip[1] and
+          index_finger_tip[1] < ring_finger_tip[1] and
+          index_finger_tip[1] < pinky_tip[1] and
+          thumb_pip[1] - thumb_tip[1] < 0 and
+          middle_finger_tip[1] - middle_finger_pip[1] > 0 and
+          ring_finger_tip[1] - ring_finger_pip[1] > 0 and
+          pinky_tip[1] - pinky_pip[1] > 0):
+        return 'G'
+    elif (index_finger_tip[1] < middle_finger_tip[1] and
+          index_finger_tip[1] < ring_finger_tip[1] and
+          index_finger_tip[1] < pinky_tip[1] and
+          middle_finger_tip[1] < ring_finger_tip[1] and
+          middle_finger_tip[1] < pinky_tip[1] and
+          thumb_pip[1] - thumb_tip[1] < 0 and
+          ring_finger_tip[1] - ring_finger_pip[1] > 0 and
+          pinky_tip[1] - pinky_pip[1] > 0):
+        return 'H'
+    elif (pinky_tip[1] < thumb_tip[1] and
+        pinky_tip[1] < index_finger_tip[1] and
+        pinky_tip[1] < middle_finger_tip[1] and
+        pinky_tip[1] < ring_finger_tip[1] and
+        pinky_tip[1] < pinky_pip[1] and
+        index_finger_pip[1] - index_finger_tip[1] < 10 and
+        middle_finger_pip[1] - middle_finger_tip[1] < 10 and
+        ring_finger_pip[1] - ring_finger_tip[1] < 10 and
+        thumb_tip[1] - thumb_pip[1] < 10):
+        return 'I'
+    elif (index_finger_tip[1] < thumb_tip[1] and
+        index_finger_tip[1] < middle_finger_tip[1] and
+        index_finger_tip[1] < ring_finger_tip[1] and
+        index_finger_tip[1] < pinky_tip[1] and
+        middle_finger_tip[1] < ring_finger_tip[1] and
+        middle_finger_tip[1] < pinky_tip[1] and
+        abs(thumb_tip[1] - thumb_pip[1]) < 30 and
+        abs(ring_finger_tip[1] - ring_finger_pip[1]) < 30 and
+        abs(pinky_tip[1] - pinky_pip[1]) < 30):
+        return 'K'
+    elif distancia_euclidiana(thumb_tip, middle_finger_tip) > 190 \
+        and distancia_euclidiana(thumb_tip, ring_finger_tip) > 190 \
+        and  pinky_pip[1] - pinky_tip[1]<0\
+        and index_finger_pip[1] - index_finger_tip[1]>0:
+        return 'L'
+    elif index_finger_pip[1] - index_finger_tip[1] < 0 and pinky_pip[1] - pinky_tip[1] < 0 and \
+        middle_finger_pip[1] - middle_finger_tip[1] < 0 and ring_finger_pip[1] - ring_finger_tip[1] < 0 \
+            and abs(index_finger_tip[1] - thumb_tip[1]) < 25 and \
+                thumb_tip[1] - index_finger_tip[1] > 0 \
+                and thumb_tip[1] - middle_finger_tip[1] > 0 \
+                and thumb_tip[1] - ring_finger_tip[1] > 0 \
+                and thumb_tip[1] - pinky_tip[1] > 0:
+        return 'M'
+    elif distancia_euclidiana(thumb_tip, middle_finger_tip) < 100 \
+        and distancia_euclidiana(thumb_tip, ring_finger_tip) < 120 \
+        and  pinky_pip[1] - pinky_tip[1]<0\
+        and index_finger_pip[1] - index_finger_tip[1]<0:
+        return 'O'
+    elif (index_finger_tip[1] < thumb_tip[1] and
+        index_finger_tip[1] < middle_finger_tip[1] and
+        index_finger_tip[1] < ring_finger_tip[1] and
+        index_finger_tip[1] < pinky_tip[1] and
+        middle_finger_pip[1] < middle_finger_tip[1] and
+        ring_finger_pip[1] < ring_finger_tip[1] and
+        pinky_pip[1] < pinky_tip[1] and
+        abs(thumb_tip[0] - index_finger_pip[0]) < 30):
+        return 'P'
     
     return {'letra': letra, 'icono': icono_base64}
 # Ruta para detectar gestos
