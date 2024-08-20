@@ -27,11 +27,18 @@ carpeta_imagenes = os.path.join(BASE_DIR, 'abc')
 def load_image_as_base64(image_name):
     image_path = os.path.join(carpeta_imagenes, image_name)
  # Verificar si el archivo existe
-    if not os.path.exists(image_path):
+    if not os.path.isfile(image_path):
         print(f"El archivo {image_path} no existe.")
         return None
-    with open(image_path, "rb") as image_file:
-        return base64.b64encode(image_file.read()).decode('utf-8')
+
+    try:
+        with open(image_path, "rb") as image_file:
+            # Codificar la imagen en base64
+            encoded_image = base64.b64encode(image_file.read()).decode('utf-8')
+            return encoded_image
+    except Exception as e:
+        print(f"Error al cargar o codificar la imagen: {e}")
+        return None
 
 
 def distancia_euclidiana(p1, p2):
@@ -205,8 +212,7 @@ def detectar_abecedario():
                 elif gesture == 'B':
                     icon_image = load_image_as_base64('B.png')
                 # Añadir más gestos y sus iconos aquí
-                else:
-                    icon_image = None
+                break
 
                 return jsonify({'gesture': gesture, 'icon': icon_image})
         
