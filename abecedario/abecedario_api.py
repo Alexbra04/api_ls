@@ -24,8 +24,10 @@ hands = mp_hands.Hands(
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 carpeta_imagenes = os.path.join(BASE_DIR, 'abc')
 
-# Asegúrate de que las imágenes se carguen correctamente
-imagenes_letras = {}
+def load_image_as_base64(image_name):
+    image_path = os.path.join(carpeta_imagenes, image_name)
+    with open(image_path, "rb") as image_file:
+        return base64.b64encode(image_file.read()).decode('utf-8')
 
 
 def distancia_euclidiana(p1, p2):
@@ -75,7 +77,9 @@ def procesar_gesto(hand_landmarks, image):
 
 
     if thumb_tip[1] < index_finger_tip[1] and thumb_tip[1] < middle_finger_tip[1] and thumb_tip[1] < ring_finger_tip[1] and thumb_tip[1] < pinky_tip[1]:
-        return 'A'
+        letra = 'A'
+        icono_base64 = load_image_as_base64('A.png')
+        return {'letra': letra, 'icono': icono_base64}
     elif index_finger_pip[1] - index_finger_tip[1]>0 and pinky_pip[1] - pinky_tip[1] > 0 and \
         middle_finger_pip[1] - middle_finger_tip[1] >0 and ring_finger_pip[1] - ring_finger_tip[1] >0 and \
             middle_finger_tip[1] - ring_finger_tip[1] <0 and abs(thumb_tip[1] - ring_finger_pip2[1])<40:
@@ -190,7 +194,15 @@ def detectar_abecedario():
                 draw_bounding_box(image, hand_landmarks)
                 gesture = procesar_gesto(hand_landmarks, image)
                 print("Gesto detectado:", gesture)
-                return jsonify({'gesture': gesture})
+
+                # Cargar el icono correspondiente
+                if gesture == 'A':
+                    icon_image = load_image_as_base64('A.png')
+                elif gesture == 'B':
+                    icon_image = load_image_as_base64('B.png')
+                # Añadir más gestos y sus iconos aquí
+                
+                return jsonify({'gesture': gesture, 'icon': icon_image})
         else:
             return jsonify({'gesture': 'No se detectaron manos'})
     
