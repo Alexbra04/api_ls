@@ -26,8 +26,19 @@ carpeta_imagenes = os.path.join(BASE_DIR, 'abc')
 
 def load_image_as_base64(image_name):
     image_path = os.path.join(carpeta_imagenes, image_name)
-    with open(image_path, "rb") as image_file:
-        return base64.b64encode(image_file.read()).decode('utf-8')
+ # Verificar si el archivo existe
+    if not os.path.isfile(image_path):
+        print(f"El archivo {image_path} no existe.")
+        return None
+
+    try:
+        with open(image_path, "rb") as image_file:
+            # Codificar la imagen en base64
+            encoded_image = base64.b64encode(image_file.read()).decode('utf-8')
+            return encoded_image
+    except Exception as e:
+        print(f"Error al cargar o codificar la imagen: {e}")
+        return None
 
 
 def distancia_euclidiana(p1, p2):
