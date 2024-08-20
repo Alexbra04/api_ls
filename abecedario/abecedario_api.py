@@ -64,8 +64,8 @@ def procesar_gesto(hand_landmarks, image):
 
     thumb_tip = (int(hand_landmarks.landmark[4].x * image_width),
                  int(hand_landmarks.landmark[4].y * image_height))
-    thumb_pip = (int(hand_landmarks.landmark[3].x * image_width),
-                 int(hand_landmarks.landmark[3].y * image_height))
+    thumb_pip = (int(hand_landmarks.landmark[2].x * image_width),
+                 int(hand_landmarks.landmark[2].y * image_height))
     index_finger_tip = (int(hand_landmarks.landmark[8].x * image_width),
                         int(hand_landmarks.landmark[8].y * image_height))
     index_finger_pip = (int(hand_landmarks.landmark[6].x * image_width),
@@ -82,18 +82,23 @@ def procesar_gesto(hand_landmarks, image):
                  int(hand_landmarks.landmark[20].y * image_height))
     pinky_pip = (int(hand_landmarks.landmark[18].x * image_width),
                  int(hand_landmarks.landmark[18].y * image_height))
+
+    wrist = (int(hand_landmarks.landmark[0].x * image_width),
+                                int(hand_landmarks.landmark[0].y * image_height))
     
     ring_finger_pip2 = (int(hand_landmarks.landmark[5].x * image_width),
                                 int(hand_landmarks.landmark[5].y * image_height))
 
 
-    if thumb_tip[1] < index_finger_tip[1] and thumb_tip[1] < middle_finger_tip[1] and thumb_tip[1] < ring_finger_tip[1] and thumb_tip[1] < pinky_tip[1]:
+    if abs(thumb_tip[1] - index_finger_pip[1]) <45 \
+        and abs(thumb_tip[1] - middle_finger_pip[1]) < 30 and abs(thumb_tip[1] - ring_finger_pip[1]) < 30\
+        and abs(thumb_tip[1] - pinky_pip[1]) < 30:
         letra = 'A'
         icono_base64 = load_image_as_base64('A.png')
         
     elif index_finger_pip[1] - index_finger_tip[1]>0 and pinky_pip[1] - pinky_tip[1] > 0 and \
         middle_finger_pip[1] - middle_finger_tip[1] >0 and ring_finger_pip[1] - ring_finger_tip[1] >0 and \
-            middle_finger_tip[1] - ring_finger_tip[1] <0 and abs(thumb_tip[1] - ring_finger_pip2[1])<10:
+            middle_finger_tip[1] - ring_finger_tip[1] <0 and abs(thumb_tip[1] - ring_finger_pip2[1])<90:
         letra = 'B'
         icono_base64 = load_image_as_base64('B.png')
 
