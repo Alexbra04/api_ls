@@ -206,18 +206,9 @@ def detectar_abecedario():
                 gesture = procesar_gesto(hand_landmarks, image)
                 print("Gesto detectado:", gesture)
 
-                # Cargar el icono correspondiente
-                if gesture == 'A':
-                    icon_image = load_image_as_base64('A.png')
-                elif gesture == 'B':
-                    icon_image = load_image_as_base64('B.png')
-                # Añadir más gestos y sus iconos aquí
-                break
-
-                return jsonify({'gesture': gesture, 'icon': icon_image})
+                return jsonify(gesture)
         
-        else:
-            return jsonify({'gesture': 'No se detectaron manos'})
+        return jsonify({'letra': 'No se detectaron manos', 'icono': None})
     
     return Response(response='Imagen no válida', status=400)
 
