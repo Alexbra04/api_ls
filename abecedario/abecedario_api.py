@@ -90,13 +90,13 @@ def procesar_gesto(hand_landmarks, image):
     if thumb_tip[1] < index_finger_tip[1] and thumb_tip[1] < middle_finger_tip[1] and thumb_tip[1] < ring_finger_tip[1] and thumb_tip[1] < pinky_tip[1]:
         letra = 'A'
         icono_base64 = load_image_as_base64('A.png')
-        return {'letra': letra, 'icono': icono_base64}
+        
     elif index_finger_pip[1] - index_finger_tip[1]>0 and pinky_pip[1] - pinky_tip[1] > 0 and \
         middle_finger_pip[1] - middle_finger_tip[1] >0 and ring_finger_pip[1] - ring_finger_tip[1] >0 and \
             middle_finger_tip[1] - ring_finger_tip[1] <0 and abs(thumb_tip[1] - ring_finger_pip2[1])<40:
         letra = 'B'
         icono_base64 = load_image_as_base64('B.png')
-        return {'letra': letra, 'icono': icono_base64}
+
     elif (distancia_euclidiana(thumb_tip, middle_finger_tip) < 65 and 
           distancia_euclidiana(thumb_tip, ring_finger_tip) < 65 and 
           pinky_pip[1] - pinky_tip[1] < 0 and 
@@ -186,6 +186,8 @@ def procesar_gesto(hand_landmarks, image):
         pinky_pip[1] < pinky_tip[1] and
         abs(thumb_tip[0] - index_finger_pip[0]) < 30):
         return 'P'
+    
+    return {'letra': letra, 'icono': icono_base64}
 # Ruta para detectar gestos
 @abecedario_api.route('/detectar_abecedario', methods=['POST'])
 def detectar_abecedario():
