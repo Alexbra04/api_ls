@@ -129,20 +129,10 @@ def detectar_palabras():
                 draw_bounding_box(image, hand_landmarks)
                 word = procesar_gesto(hand_landmarks, image)
                 print("Gesto detectado:", word)
-
-                if word in imagenes_letras:
-                    letra_image = imagenes_letras[word]
-                    letra_image_resized = cv2.resize(letra_image, (50, 50))
-                    x_offset, y_offset = 10, 10
-                    if x_offset + letra_image_resized.shape[1] <= image.shape[1] and y_offset + letra_image_resized.shape[0] <= image.shape[0]:
-                        image[y_offset:y_offset + letra_image_resized.shape[0], x_offset:x_offset + letra_image_resized.shape[1]] = letra_image_resized
-            _, buffer = cv2.imencode('.png', image)
-            image_base64 = base64.b64encode(buffer).decode('utf-8')
-
-            return jsonify({"image": image_base64, "word": word})
+                return jsonify({'word': word})
         else:
             return jsonify({'word': 'No se detectaron manos'})
-    
+            
     return Response(response='Imagen no válida', status=400)
 
 if __name__ == '__main__':
