@@ -212,7 +212,8 @@ def detectar_abecedario():
                 elif gesture == 'B':
                     icon_image = load_image_as_base64('B.png')
                 # Añadir más gestos y sus iconos aquí
-                break
+                else:
+                    icon_image = None
 
                 return jsonify({'gesture': gesture, 'icon': icon_image})
         
