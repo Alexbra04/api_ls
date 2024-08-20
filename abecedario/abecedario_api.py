@@ -212,17 +212,15 @@ def detectar_abecedario():
         letra_detectada = None
         if resultado.multi_hand_landmarks:
             for hand_landmarks in resultado.multi_hand_landmarks:
-                letra_detectada = procesar_gesto(hand_landmarks, imagen_cv)
-                draw_bounding_box(imagen_cv, hand_landmarks)
+                letra_detectada = procesar_gesto(hand_landmarks, image)
+                draw_bounding_box(image, hand_landmarks)
                 if letra_detectada == 'A' and imagen_a is not None:
-                    imagen_cv = superponer_icono(imagen_cv, imagen_a, 10, 10)
+                    image = superponer_icono(image, imagen_a, 10, 10)
 
-        _, buffer = cv2.imencode('.jpg', imagen_cv)
+        _, buffer = cv2.imencode('.jpg', image)
         imagen_enviada = base64.b64encode(buffer).decode('utf-8')
         
-        return jsonify({'letra': letra_detectada, 'imagen': imagen_enviada})
-        else:
-            return jsonify({'gesture': 'No se detectaron manos'})
+        return jsonify({'letra': letra_detectada, 'image': imagen_enviada})
     
     return Response(response='Imagen no válida', status=400)
 
