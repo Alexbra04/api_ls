@@ -214,7 +214,7 @@ def detectar_abecedario():
                 # Añadir más gestos y sus iconos aquí
                 break
 
-                return jsonify({'gesture': gesture, 'icon': icon_image})
+                return jsonify({'gesture': gesture})
         
         else:
             return jsonify({'gesture': 'No se detectaron manos'})
