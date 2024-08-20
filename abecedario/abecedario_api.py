@@ -24,8 +24,12 @@ hands = mp_hands.Hands(
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 carpeta_imagenes = os.path.join(BASE_DIR, 'abc')
 
-# Asegúrate de que las imágenes se carguen correctamente
-imagenes_letras = {}
+# Cargar la imagen del icono de la letra A
+imagen_a_path = os.path.join(carpeta_imagenes, 'A.png')
+if os.path.exists(imagen_a_path):
+    imagen_a = cv2.imread(imagen_a_path, cv2.IMREAD_UNCHANGED)
+else:
+    imagen_a = None
 
 
 def distancia_euclidiana(p1, p2):
@@ -170,6 +174,26 @@ def procesar_gesto(hand_landmarks, image):
         abs(thumb_tip[0] - index_finger_pip[0]) < 30):
         return 'P'
 # Ruta para detectar gestos
+def superponer_icono(image, icono, x, y):
+    """Superpone un ícono en la image en la posición (x, y)"""
+    h_icono, w_icono, _ = icono.shape
+    h_imagen, w_imagen, _ = image.shape
+
+    if x + w_icono > w_imagen or y + h_icono > h_imagen:
+        return image  # Si el ícono se sale de los límites, no lo superponemos
+
+    # Crear máscara del ícono
+    icono_rgb = icono[:, :, :3]
+    mascara = icono[:, :, 3]
+
+    # Área donde se colocará el ícono
+    area = image[y:y+h_icono, x:x+w_icono]
+
+    # Superposición del ícono con transparencia
+    area[np.where(mascara)] = 0
+    area += icono_rgb
+
+    return image
 @abecedario_api.route('/detectar_abecedario', methods=['POST'])
 def detectar_abecedario():
     data = request.get_json()
@@ -185,12 +209,18 @@ def detectar_abecedario():
         # Procesar la imagen con MediaPipe Hands
         results = hands.process(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
 
-        if results.multi_hand_landmarks:
-            for hand_landmarks in results.multi_hand_landmarks:
-                draw_bounding_box(image, hand_landmarks)
-                gesture = procesar_gesto(hand_landmarks, image)
-                print("Gesto detectado:", gesture)
-                return jsonify({'gesture': gesture})
+        letra_detectada = None
+        if resultado.multi_hand_landmarks:
+            for hand_landmarks in resultado.multi_hand_landmarks:
+                letra_detectada = procesar_gesto(hand_landmarks, imagen_cv)
+                draw_bounding_box(imagen_cv, hand_landmarks)
+                if letra_detectada == 'A' and imagen_a is not None:
+                    imagen_cv = superponer_icono(imagen_cv, imagen_a, 10, 10)
+
+        _, buffer = cv2.imencode('.jpg', imagen_cv)
+        imagen_enviada = base64.b64encode(buffer).decode('utf-8')
+        
+        return jsonify({'letra': letra_detectada, 'imagen': imagen_enviada})
         else:
             return jsonify({'gesture': 'No se detectaron manos'})
     
