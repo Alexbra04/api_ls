@@ -25,7 +25,9 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 carpeta_imagenes = os.path.join(BASE_DIR, 'abc')
 
 # Asegúrate de que las imágenes se carguen correctamente
-imagenes_letras = {}
+imagenes_letras = {
+    'A': os.path.join(carpeta_imagenes, 'A.png'),
+}
 
 
 def distancia_euclidiana(p1, p2):
@@ -75,7 +77,8 @@ def procesar_gesto(hand_landmarks, image):
 
 
     if thumb_tip[1] < index_finger_tip[1] and thumb_tip[1] < middle_finger_tip[1] and thumb_tip[1] < ring_finger_tip[1] and thumb_tip[1] < pinky_tip[1]:
-        return 'A'
+        letra_detectada = 'A'  # Ejemplo, sustituir por lógica real
+        return letra_detectada
     elif index_finger_pip[1] - index_finger_tip[1]>0 and pinky_pip[1] - pinky_tip[1] > 0 and \
         middle_finger_pip[1] - middle_finger_tip[1] >0 and ring_finger_pip[1] - ring_finger_tip[1] >0 and \
             middle_finger_tip[1] - ring_finger_tip[1] <0 and abs(thumb_tip[1] - ring_finger_pip2[1])<40:
@@ -188,11 +191,12 @@ def detectar_abecedario():
         if results.multi_hand_landmarks:
             for hand_landmarks in results.multi_hand_landmarks:
                 draw_bounding_box(image, hand_landmarks)
-                gesture = procesar_gesto(hand_landmarks, image)
-                print("Gesto detectado:", gesture)
-                return jsonify({'gesture': gesture})
+                letra_detectada = procesar_gesto(hand_landmarks, image)
+                print("Gesto detectado:", letra_detectada)
+                if letra_detectada in imagenes_letras:
+                    return send_file(imagenes_letras[letra_detectada], mimetype='image/png')
         else:
-            return jsonify({'gesture': 'No se detectaron manos'})
+            return jsonify({'letra_detectada': 'No se detectaron manos'})
     
     return Response(response='Imagen no válida', status=400)
 
