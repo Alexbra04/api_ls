@@ -216,19 +216,19 @@ def detectar_abecedario():
                 draw_bounding_box(image, hand_landmarks)
                 gesture = procesar_gesto(hand_landmarks, image)
                 print("Gesto detectado:", gesture)
-            if isinstance(gesture, dict) and 'letra' in gesture:
-                if gesture['letra'] == 'A':
-                    icono_base64 = load_image_as_base64('A.png')
-                    return jsonify({'letra': 'A', 'icono': icono_base64})
-                elif gesture['letra'] == 'B':
-                    icono_base64 = load_image_as_base64('B.png')
-                    return jsonify({'letra': 'B', 'icono': icono_base64})
-                elif gesture['letra'] == 'D':
-                    icono_base64 = load_image_as_base64('D.png')
-                    return jsonify({'letra': 'D', 'icono': icono_base64})
-                elif gesture['letra'] == 'C':
-                    icono_base64 = load_image_as_base64('C.png')
-                    return jsonify({'letra': 'C', 'icono': icono_base64})                                     
+                if isinstance(gesture, dict) and 'letra' in gesture:
+                    if gesture['letra'] == 'A':
+                        icono_base64 = load_image_as_base64('A.png')
+                        return jsonify({'letra': 'A', 'icono': icono_base64})
+                    elif gesture['letra'] == 'B':
+                        icono_base64 = load_image_as_base64('B.png')
+                        return jsonify({'letra': 'B', 'icono': icono_base64})
+                    elif gesture['letra'] == 'D':
+                        icono_base64 = load_image_as_base64('D.png')
+                        return jsonify({'letra': 'D', 'icono': icono_base64})
+                    elif gesture['letra'] == 'C':
+                        icono_base64 = load_image_as_base64('C.png')
+                        return jsonify({'letra': 'C', 'icono': icono_base64})                                     
         else:
             return jsonify({'gesture': 'No se detectaron manos'})
     
