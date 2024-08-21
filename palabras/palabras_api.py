@@ -147,7 +147,7 @@ def detectar_palabras():
                 if isinstance(word, dict) and 'palabra' in word:
                     if word['palabra'] == 'Te Quiero':
                         icono_base64 = load_image_as_base64('tequiero.png')
-                        return jsonify({'palabra': 'A', 'icono': icono_base64})
+                        return jsonify({'palabra': 'Te Quiero', 'icono': icono_base64})
                     elif word['palabra'] == 'B':
                         icono_base64 = load_image_as_base64('B.png')
                         return jsonify({'palabra': 'B', 'icono': icono_base64})
