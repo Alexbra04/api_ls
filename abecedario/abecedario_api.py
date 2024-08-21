@@ -211,6 +211,12 @@ def detectar_abecedario():
         # Procesar la imagen con MediaPipe Hands
         results = hands.process(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
 
+        # Dibujar las marcas de la mano
+        mp_drawing.draw_landmarks(
+            image, hand_landmarks, mp_hands.HAND_CONNECTIONS,
+            mp_drawing_styles.get_default_hand_landmarks_style(),
+            mp_drawing_styles.get_default_hand_connections_style())
+
         if results.multi_hand_landmarks:
             for hand_landmarks in results.multi_hand_landmarks:
                 draw_bounding_box(image, hand_landmarks)
