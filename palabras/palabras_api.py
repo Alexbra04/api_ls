@@ -22,10 +22,23 @@ hands = mp_hands.Hands(
     min_tracking_confidence=0.5)
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-carpeta_imagenes = os.path.join(BASE_DIR, 'abc')
+carpeta_imagenes = os.path.join(BASE_DIR, 'wrd')
 
-# Asegúrate de que las imágenes se carguen correctamente
-imagenes_letras = {}
+def load_image_as_base64(image_name):
+    image_path = os.path.join(carpeta_imagenes, image_name)
+ # Verificar si el archivo existe
+    if not os.path.isfile(image_path):
+        print(f"El archivo {image_path} no existe.")
+        return None
+
+    try:
+        with open(image_path, "rb") as image_file:
+            # Codificar la imagen en base64
+            encoded_image = base64.b64encode(image_file.read()).decode('utf-8')
+            return encoded_image
+    except Exception as e:
+        print(f"Error al cargar o codificar la imagen: {e}")
+        return None
 
 
 def distancia_euclidiana(p1, p2):
@@ -83,7 +96,8 @@ def procesar_gesto(hand_landmarks, image):
         thumb_tip[1] - middle_finger_tip[1] > 0 and
         thumb_tip[1] - ring_finger_tip[1] > 0 and
         thumb_tip[1] - pinky_tip[1] > 0):  
-        return 'Te Quiero'
+        palabra = 'Te Quiero'
+        icono_base64 = load_image_as_base64('tequiero.png')
     elif (thumb_tip[0] < index_finger_tip[0] and
         index_finger_tip[1] < thumb_tip[1] and
         middle_finger_tip[1] < ring_finger_tip[1] and
@@ -108,6 +122,7 @@ def procesar_gesto(hand_landmarks, image):
             middle_finger_tip[1] < ring_finger_tip[1])):
         return 'Bien'
 
+    return {'palabra': palabra, 'icono': icono_base64}
 # Ruta para detectar gestos
 @palabras_api.route('/detectar_palabras', methods=['POST'])
 def detectar_palabras():
@@ -129,7 +144,19 @@ def detectar_palabras():
                 draw_bounding_box(image, hand_landmarks)
                 word = procesar_gesto(hand_landmarks, image)
                 print("Gesto detectado:", word)
-                return jsonify({'word': word})
+                if isinstance(word, dict) and 'palabra' in word:
+                    if word['palabra'] == 'Te Quiero':
+                        icono_base64 = load_image_as_base64('tequiero.png')
+                        return jsonify({'palabra': 'A', 'icono': icono_base64})
+                    elif word['palabra'] == 'B':
+                        icono_base64 = load_image_as_base64('B.png')
+                        return jsonify({'palabra': 'B', 'icono': icono_base64})
+                    elif word['palabra'] == 'D':
+                        icono_base64 = load_image_as_base64('D.png')
+                        return jsonify({'palabra': 'D', 'icono': icono_base64})
+                    elif word['palabra'] == 'C':
+                        icono_base64 = load_image_as_base64('C.png')
+                        return jsonify({'palabra': 'C', 'icono': icono_base64})
         else:
             return jsonify({'word': 'No se detectaron manos'})
             
