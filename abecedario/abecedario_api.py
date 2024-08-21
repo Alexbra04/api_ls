@@ -24,12 +24,25 @@ hands = mp_hands.Hands(
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 carpeta_imagenes = os.path.join(BASE_DIR, 'abc')
 
-# Asegúrate de que las imágenes se carguen correctamente
-imagenes_letras = {}
+def load_image_as_base64(image_name):
+    image_path = os.path.join(carpeta_imagenes, image_name)
+ # Verificar si el archivo existe
+    if not os.path.isfile(image_path):
+        print(f"El archivo {image_path} no existe.")
+        return None
+
+    try:
+        with open(image_path, "rb") as image_file:
+            # Codificar la imagen en base64
+            encoded_image = base64.b64encode(image_file.read()).decode('utf-8')
+            return encoded_image
+    except Exception as e:
+        print(f"Error al cargar o codificar la imagen: {e}")
+        return None
 
 
 def distancia_euclidiana(p1, p2):
-    d = np.sqrt((p2[0] - p1[0]) * 2 + (p2[1] - p1[1]) * 2)
+    d = np.sqrt((p2[0] - p1[0]) ** 2 + (p2[1] - p1[1]) ** 2)
     return d
 
 def draw_bounding_box(image, hand_landmarks):
@@ -51,8 +64,8 @@ def procesar_gesto(hand_landmarks, image):
 
     thumb_tip = (int(hand_landmarks.landmark[4].x * image_width),
                  int(hand_landmarks.landmark[4].y * image_height))
-    thumb_pip = (int(hand_landmarks.landmark[3].x * image_width),
-                 int(hand_landmarks.landmark[3].y * image_height))
+    thumb_pip = (int(hand_landmarks.landmark[2].x * image_width),
+                 int(hand_landmarks.landmark[2].y * image_height))
     index_finger_tip = (int(hand_landmarks.landmark[8].x * image_width),
                         int(hand_landmarks.landmark[8].y * image_height))
     index_finger_pip = (int(hand_landmarks.landmark[6].x * image_width),
@@ -69,26 +82,37 @@ def procesar_gesto(hand_landmarks, image):
                  int(hand_landmarks.landmark[20].y * image_height))
     pinky_pip = (int(hand_landmarks.landmark[18].x * image_width),
                  int(hand_landmarks.landmark[18].y * image_height))
+
+    wrist = (int(hand_landmarks.landmark[0].x * image_width),
+                                int(hand_landmarks.landmark[0].y * image_height))
     
     ring_finger_pip2 = (int(hand_landmarks.landmark[5].x * image_width),
                                 int(hand_landmarks.landmark[5].y * image_height))
 
 
     if thumb_tip[1] < index_finger_tip[1] and thumb_tip[1] < middle_finger_tip[1] and thumb_tip[1] < ring_finger_tip[1] and thumb_tip[1] < pinky_tip[1]:
-        return 'A'
+        letra = 'A'
+        icono_base64 = load_image_as_base64('A.png')
+        
     elif index_finger_pip[1] - index_finger_tip[1]>0 and pinky_pip[1] - pinky_tip[1] > 0 and \
         middle_finger_pip[1] - middle_finger_tip[1] >0 and ring_finger_pip[1] - ring_finger_tip[1] >0 and \
-            middle_finger_tip[1] - ring_finger_tip[1] <0 and abs(thumb_tip[1] - ring_finger_pip2[1])<20:
-        return 'B'
+            middle_finger_tip[1] - ring_finger_tip[1] <0 and abs(thumb_tip[1] - ring_finger_pip2[1])<90:
+        letra = 'B'
+        icono_base64 = load_image_as_base64('B.png')
+
     elif (distancia_euclidiana(thumb_tip, middle_finger_tip) < 65 and 
           distancia_euclidiana(thumb_tip, ring_finger_tip) < 65 and 
           pinky_pip[1] - pinky_tip[1] < 0 and 
           index_finger_pip[1] - index_finger_tip[1] > 0):
-        return 'D'
-    elif abs(index_finger_tip[1] - thumb_tip[1]) < 380 and \
+        letra = 'D'
+        icono_base64 = load_image_as_base64('D.png')
+
+    elif abs(index_finger_tip[1] - thumb_tip[1]) < 360 and \
         index_finger_tip[1] - middle_finger_pip[1]<0 and index_finger_tip[1] - middle_finger_tip[1] < 0 and \
             index_finger_tip[1] - index_finger_pip[1] > 0:
-        return "C"
+        letra = 'C'
+        icono_base64 = load_image_as_base64('C.png')
+    
     elif index_finger_pip[1] - index_finger_tip[1] < 0 and pinky_pip[1] - pinky_tip[1] < 0 and \
         middle_finger_pip[1] - middle_finger_tip[1] < 0 and ring_finger_pip[1] - ring_finger_tip[1] < 0 \
             and abs(index_finger_tip[1] - thumb_tip[1]) > 100 and \
@@ -169,6 +193,8 @@ def procesar_gesto(hand_landmarks, image):
         pinky_pip[1] < pinky_tip[1] and
         abs(thumb_tip[0] - index_finger_pip[0]) < 30):
         return 'P'
+    
+    return {'letra': letra, 'icono': icono_base64}
 # Ruta para detectar gestos
 @abecedario_api.route('/detectar_abecedario', methods=['POST'])
 def detectar_abecedario():
@@ -185,12 +211,30 @@ def detectar_abecedario():
         # Procesar la imagen con MediaPipe Hands
         results = hands.process(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
 
+        # Dibujar las marcas de la mano
+        mp_drawing.draw_landmarks(
+            image, hand_landmarks, mp_hands.HAND_CONNECTIONS,
+            mp_drawing_styles.get_default_hand_landmarks_style(),
+            mp_drawing_styles.get_default_hand_connections_style())
+
         if results.multi_hand_landmarks:
             for hand_landmarks in results.multi_hand_landmarks:
                 draw_bounding_box(image, hand_landmarks)
                 gesture = procesar_gesto(hand_landmarks, image)
                 print("Gesto detectado:", gesture)
-                return jsonify({'gesture': gesture})
+                if isinstance(gesture, dict) and 'letra' in gesture:
+                    if gesture['letra'] == 'A':
+                        icono_base64 = load_image_as_base64('A.png')
+                        return jsonify({'letra': 'A', 'icono': icono_base64})
+                    elif gesture['letra'] == 'B':
+                        icono_base64 = load_image_as_base64('B.png')
+                        return jsonify({'letra': 'B', 'icono': icono_base64})
+                    elif gesture['letra'] == 'D':
+                        icono_base64 = load_image_as_base64('D.png')
+                        return jsonify({'letra': 'D', 'icono': icono_base64})
+                    elif gesture['letra'] == 'C':
+                        icono_base64 = load_image_as_base64('C.png')
+                        return jsonify({'letra': 'C', 'icono': icono_base64})                                     
         else:
             return jsonify({'gesture': 'No se detectaron manos'})
     
