@@ -21,7 +21,7 @@ hands = mp_hands.Hands(
     min_detection_confidence=0.5,
     min_tracking_confidence=0.5)
 
-BASE_DIR = os.path.dirname(os.path.abspath(_file_))
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 carpeta_imagenes = os.path.join(BASE_DIR, 'abc')
 
 # Asegúrate de que las imágenes se carguen correctamente
@@ -196,8 +196,8 @@ def detectar_abecedario():
     
     return Response(response='Imagen no válida', status=400)
 
-if _name_ == '_main_':
+if __name__ == '__main__':
     from flask import Flask
-    app = Flask(_name_)
+    app = Flask(__name__)
     app.register_blueprint(abecedario_api)
     app.run(host='0.0.0.0', port=5000, debug=True)
