@@ -8,7 +8,7 @@ import os
 from io import BytesIO
 from PIL import Image
 
-abecedario_api = Blueprint('abecedario_api', _name_)
+abecedario_api = Blueprint('abecedario_api', __name__)
 
 # Inicialización de MediaPipe Hands
 mp_drawing = mp.solutions.drawing_utils
