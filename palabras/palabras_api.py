@@ -157,6 +157,8 @@ def detectar_palabras():
                     elif word['palabra'] == 'C':
                         icono_base64 = load_image_as_base64('C.png')
                         return jsonify({'palabra': 'C', 'icono': icono_base64})
+                else:
+                return jsonify({'word': 'No se detectaron manos'})
         else:
             return jsonify({'word': 'No se detectaron manos'})
             
