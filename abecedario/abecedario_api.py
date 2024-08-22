@@ -115,7 +115,7 @@ def procesar_gesto(hand_landmarks, image):
     
     elif index_finger_pip[1] - index_finger_tip[1] < 0 and pinky_pip[1] - pinky_tip[1] < 0 and \
         middle_finger_pip[1] - middle_finger_tip[1] < 0 and ring_finger_pip[1] - ring_finger_tip[1] < 0 \
-            and abs(index_finger_tip[1] - thumb_tip[1]) > 80 and \
+            and abs(index_finger_tip[1] - thumb_tip[1]) > 50 and \
                 thumb_tip[1] - index_finger_tip[1] > 0 \
                 and thumb_tip[1] - middle_finger_tip[1] > 0 \
                 and thumb_tip[1] - ring_finger_tip[1] > 0 \
