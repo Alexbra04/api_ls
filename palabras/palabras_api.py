@@ -124,14 +124,18 @@ def procesar_gesto(hand_landmarks, image):
 
     return {'palabra': palabra, 'icono': icono_base64}
 
-def rotar_imagen_a_vertical(image):
+def rotar_imagen_a_vertical(image, is_front_camera=False):
     # Obtener el alto y el ancho de la imagen
     height, width = image.shape[:2]
     
-    # Si la imagen es más ancha que alta, rotar 90 grados hacia la izquierda
+    # Si la imagen es más ancha que alta, rotar 90 grados a la izquierda
     if width > height:
-        # Rotar la imagen 90 grados a la izquierda
-        image = cv2.rotate(image, cv2.ROTATE_90_CLOCKWISE)
+        image = cv2.rotate(image, cv2.ROTATE_90_COUNTERCLOCKWISE)
+
+    # Aplicar rotación adicional si es de la cámara frontal
+    if is_front_camera:
+        image = cv2.flip(image, flipCode=1)  # Voltear horizontalmente (como si fuera un espejo)
+    
     return image
     
 # Ruta para detectar gestos
