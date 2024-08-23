@@ -196,6 +196,17 @@ def procesar_gesto(hand_landmarks, image):
         return 'P'
     
     return {'letra': letra, 'icono': icono_base64}
+
+def rotar_imagen(image):
+    # Convertir la imagen a PIL para rotar
+    pil_image = Image.fromarray(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
+    # Obtener las dimensiones de la imagen
+    width, height = pil_image.size
+    # Rotar la imagen si es necesario
+    if width < height:
+        pil_image = pil_image.rotate(-90, expand=True)
+    return cv2.cvtColor(np.array(pil_image), cv2.COLOR_RGB2BGR)
+
 # Ruta para detectar gestos
 @abecedario_api.route('/detectar_abecedario', methods=['POST'])
 def detectar_abecedario():
