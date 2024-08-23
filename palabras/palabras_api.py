@@ -129,7 +129,7 @@ def rotar_imagen_a_vertical(image):
     height, width = image.shape[:2]
     
     # Si la imagen es más ancha que alta, rotar 90 grados
-    if width > height:
+    if height > width:
         image = cv2.transpose(image)
         image = cv2.flip(image, flipCode=1)  # Flip horizontalmente
     return image
