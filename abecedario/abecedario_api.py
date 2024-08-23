@@ -220,6 +220,9 @@ def detectar_abecedario():
         image = np.array(image)
         image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
 
+        # Rotar la imagen para asegurar orientación vertical
+        imagen_cv2 = rotar_imagen(imagen_cv2)
+
         # Procesar la imagen con MediaPipe Hands
         results = hands.process(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
 
