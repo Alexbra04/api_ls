@@ -152,7 +152,7 @@ def detectar_palabras():
         image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
         
         # Asegurar que la imagen esté en orientación vertical
-        image = rotar_imagen_a_vertical(image)
+        image = rotar_imagen_a_vertical(image, is_front_camera)
 
         # Procesar la imagen con MediaPipe Hands
         results = hands.process(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
