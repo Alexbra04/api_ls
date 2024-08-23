@@ -197,15 +197,17 @@ def procesar_gesto(hand_landmarks, image):
     
     return {'letra': letra, 'icono': icono_base64}
 
-def rotar_imagen(image):
-    # Convertir la imagen a PIL para rotar
-    pil_image = Image.fromarray(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
-    # Obtener las dimensiones de la imagen
+def rotar_imagen_a_vertical(image):
+    # Convertir la imagen a PIL para obtener el tamaño
+    pil_image = Image.fromarray(image)
     width, height = pil_image.size
-    # Rotar la imagen si es necesario
-    if width < height:
-        pil_image = pil_image.rotate(-90, expand=True)
-    return cv2.cvtColor(np.array(pil_image), cv2.COLOR_RGB2BGR)
+
+    # Si la imagen está en horizontal, rotarla 90 grados
+    if width > height:
+        pil_image = pil_image.rotate(90, expand=True)
+        image = np.array(pil_image)
+    
+    return image
 
 # Ruta para detectar gestos
 @abecedario_api.route('/detectar_abecedario', methods=['POST'])
@@ -220,8 +222,8 @@ def detectar_abecedario():
         image = np.array(image)
         image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
 
-        # Rotar la imagen para asegurar orientación vertical
-        imagen_cv2 = rotar_imagen(imagen_cv2)
+        # Rotar la imagen a vertical si es necesario
+        image = rotar_imagen_a_vertical(image)
 
         # Procesar la imagen con MediaPipe Hands
         results = hands.process(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
