@@ -128,10 +128,10 @@ def rotar_imagen_a_vertical(image):
     # Obtener el alto y el ancho de la imagen
     height, width = image.shape[:2]
     
-    # Si la imagen es más ancha que alta, rotar 90 grados
-    if height > width:
-        image = cv2.transpose(image)
-        image = cv2.flip(image, flipCode=1)  # Flip horizontalmente
+    # Si la imagen es más ancha que alta, rotar 90 grados hacia la izquierda
+    if width > height:
+        # Rotar la imagen 90 grados a la izquierda
+        image = cv2.rotate(image, cv2.ROTATE_90_COUNTERCLOCKWISE)
     return image
     
 # Ruta para detectar gestos
