@@ -125,21 +125,13 @@ def procesar_gesto(hand_landmarks, image):
     return {'palabra': palabra, 'icono': icono_base64}
 
 def rotar_imagen_a_vertical(image):
-    # Obtener las dimensiones de la imagen
+    # Obtener el alto y el ancho de la imagen
     height, width = image.shape[:2]
-
-    # Calcular el ángulo de rotación
-    angle = 0
+    
+    # Si la imagen es más ancha que alta, rotar 90 grados
     if width > height:
-        angle = 90
-
-    # Rotar la imagen si es necesario
-    if angle != 0:
-        center = (width / 2, height / 2)
-        matrix = cv2.getRotationMatrix2D(center, angle, 1.0)
-        rotated_image = cv2.warpAffine(image, matrix, (width, height))
-        return rotated_image
-
+        image = cv2.transpose(image)
+        image = cv2.flip(image, flipCode=1)  # Flip horizontalmente
     return image
     
 # Ruta para detectar gestos
@@ -154,7 +146,7 @@ def detectar_palabras():
         image = Image.open(BytesIO(image_data)).convert('RGB')
         image = np.array(image)
         image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
-
+        
         # Asegurar que la imagen esté en orientación vertical
         image = rotar_imagen_a_vertical(image)
 
