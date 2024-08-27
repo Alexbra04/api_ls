@@ -109,19 +109,22 @@ def procesar_gesto(hand_landmarks, image):
     elif (index_finger_tip[1] < thumb_tip[1] and
         thumb_tip[1] < index_finger_pip[1] and
         middle_finger_tip[1] < ring_finger_tip[1]):
-        return 'Mamá'
+        palabra = 'Mamá'
+        icono_base64 = load_image_as_base64('mama.png')
     elif distancia_euclidiana(thumb_tip, middle_finger_tip) < 100 \
         and distancia_euclidiana(thumb_tip, ring_finger_tip) < 120 \
         and  pinky_pip[1] - pinky_tip[1]<0\
         and index_finger_pip[1] - index_finger_tip[1]>0:
-        return 'Papá'
+        palabra = 'Papá'
+        icono_base64 = load_image_as_base64('papa.png')
     elif(thumb_tip[0] < index_finger_tip[0] and
         index_finger_tip[1] > thumb_tip[1] and
         middle_finger_tip[1] < ring_finger_tip[1] and
         not (index_finger_tip[1] < thumb_tip[1] and
             thumb_tip[1] < index_finger_pip[1] and
             middle_finger_tip[1] < ring_finger_tip[1])):
-        return 'Bien'
+        palabra = 'Bien'
+        icono_base64 = load_image_as_base64('bien.png')
 
     return {'palabra': palabra, 'icono': icono_base64}
 
@@ -166,12 +169,15 @@ def detectar_palabras():
                     elif word['palabra'] == 'Casa':
                         icono_base64 = load_image_as_base64('casa.png')
                         return jsonify({'palabra': 'Casa', 'icono': icono_base64})
-                    elif word['palabra'] == 'D':
-                        icono_base64 = load_image_as_base64('D.png')
-                        return jsonify({'palabra': 'D', 'icono': icono_base64})
-                    elif word['palabra'] == 'C':
-                        icono_base64 = load_image_as_base64('C.png')
-                        return jsonify({'palabra': 'C', 'icono': icono_base64})
+                    elif word['palabra'] == 'Mamá':
+                        icono_base64 = load_image_as_base64('mama.png')
+                        return jsonify({'palabra': 'Mamá', 'icono': icono_base64})
+                    elif word['palabra'] == 'Papá':
+                        icono_base64 = load_image_as_base64('papa.png')
+                        return jsonify({'palabra': 'Papá', 'icono': icono_base64})
+                    elif word['palabra'] == 'Bien':
+                        icono_base64 = load_image_as_base64('bien.png')
+                        return jsonify({'palabra': 'Bien', 'icono': icono_base64})                        
         else:
             return jsonify({'word': 'No se detectaron manos'})
             
