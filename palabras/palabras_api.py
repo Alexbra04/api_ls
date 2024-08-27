@@ -124,18 +124,15 @@ def procesar_gesto(hand_landmarks, image):
 
     return {'palabra': palabra, 'icono': icono_base64}
 
-def rotar_imagen_a_vertical(image, is_front_camera=False):
+def rotar_imagen_a_vertical(image):
     # Obtener el alto y el ancho de la imagen
     height, width = image.shape[:2]
     
-    # Si la imagen es más ancha que alta, rotar 90 grados a la izquierda
+    # Si la imagen es más ancha que alta, rotar 90 grados hacia la izquierda
     if width > height:
-        image = cv2.rotate(image, cv2.ROTATE_90_COUNTERCLOCKWISE)
+        # Rotar la imagen 90 grados a la izquierda
+        image = cv2.rotate(image, cv2.ROTATE_90_CLOCKWISE)
 
-    # Aplicar rotación adicional si es de la cámara frontal
-    if is_front_camera:
-        image = cv2.flip(image, flipCode=1)  # Voltear horizontalmente (como si fuera un espejo)
-    
     return image
     
 # Ruta para detectar gestos
@@ -145,16 +142,16 @@ def detectar_palabras():
     image_base64 = data.get('image')
     
     if image_base64:
-        # Decodificar la imagen desde base64
+        
         image_data = base64.b64decode(image_base64)
         image = Image.open(BytesIO(image_data)).convert('RGB')
         image = np.array(image)
         image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
         
-        # Asegurar que la imagen esté en orientación vertical
+        
         image = rotar_imagen_a_vertical(image, is_front_camera)
 
-        # Procesar la imagen con MediaPipe Hands
+        
         results = hands.process(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
 
         if results.multi_hand_landmarks:
