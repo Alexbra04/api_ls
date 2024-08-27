@@ -129,7 +129,7 @@ def rotar_imagen_a_vertical(image):
     height, width = image.shape[:2]
     
     
-    if width > height:
+    if width >= height:
         
         image = cv2.rotate(image, cv2.ROTATE_90_CLOCKWISE)
 
@@ -142,16 +142,15 @@ def detectar_palabras():
     image_base64 = data.get('image')
     
     if image_base64:
-        
         image_data = base64.b64decode(image_base64)
         image = Image.open(BytesIO(image_data)).convert('RGB')
         image = np.array(image)
         image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
         
-        
-        image = rotar_imagen_a_vertical(image, is_front_camera)
 
-        
+        image = rotar_imagen_a_vertical(image)
+
+
         results = hands.process(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
 
         if results.multi_hand_landmarks:

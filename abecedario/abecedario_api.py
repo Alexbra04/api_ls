@@ -215,16 +215,16 @@ def detectar_abecedario():
     image_base64 = data.get('image')
     
     if image_base64:
-        # Decodificar la imagen desde base64
+
         image_data = base64.b64decode(image_base64)
         image = Image.open(BytesIO(image_data)).convert('RGB')
         image = np.array(image)
         image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
         
-        # Asegurar que la imagen esté en orientación vertical
+
         image = rotar_imagen_a_vertical(image)
 
-        # Procesar la imagen con MediaPipe Hands
+
         results = hands.process(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
 
         if results.multi_hand_landmarks:
