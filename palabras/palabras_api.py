@@ -104,7 +104,8 @@ def procesar_gesto(hand_landmarks, image):
         not (index_finger_tip[1] < thumb_tip[1] and
             thumb_tip[1] < index_finger_pip[1] and
             middle_finger_tip[1] < ring_finger_tip[1])):
-        return 'Casa'
+        palabra = 'Casa'
+        icono_base64 = load_image_as_base64('casa.png')
     elif (index_finger_tip[1] < thumb_tip[1] and
         thumb_tip[1] < index_finger_pip[1] and
         middle_finger_tip[1] < ring_finger_tip[1]):
@@ -162,9 +163,9 @@ def detectar_palabras():
                     if word['palabra'] == 'Te Quiero':
                         icono_base64 = load_image_as_base64('tequiero.png')
                         return jsonify({'palabra': 'Te Quiero', 'icono': icono_base64})
-                    elif word['palabra'] == 'B':
-                        icono_base64 = load_image_as_base64('B.png')
-                        return jsonify({'palabra': 'B', 'icono': icono_base64})
+                    elif word['palabra'] == 'Casa':
+                        icono_base64 = load_image_as_base64('casa.png')
+                        return jsonify({'palabra': 'Casa', 'icono': icono_base64})
                     elif word['palabra'] == 'D':
                         icono_base64 = load_image_as_base64('D.png')
                         return jsonify({'palabra': 'D', 'icono': icono_base64})
