@@ -122,13 +122,13 @@ def procesar_gesto(hand_landmarks, image):
                 and thumb_tip[1] - pinky_tip[1] > 0:
             letra = 'E'
             icono_base64 = load_image_as_base64('E.png')
-    elif (pinky_pip[1] - pinky_tip[1] > 0 and 
-          middle_finger_pip[1] - middle_finger_tip[1] > 0 and 
-          ring_finger_pip[1] - ring_finger_tip[1] > 0 and 
-          index_finger_pip[1] - index_finger_tip[1] < 0 and 
-          abs(thumb_pip[1] - thumb_tip[1]) > 0 and 
-          distancia_euclidiana(index_finger_tip, thumb_tip) < 65):
-        return 'F'
+
+    elif  pinky_pip[1] - pinky_tip[1] > 0 and middle_finger_pip[1] - middle_finger_tip[1] > 0 and \
+        ring_finger_pip[1] - ring_finger_tip[1] > 0 and index_finger_pip[1] - index_finger_tip[1] < 0 \
+            and abs(thumb_pip[1] - thumb_tip[1]) > 0 and distancia_euclidiana(index_finger_tip, thumb_tip) <65:
+        letra = 'F'
+        icono_base64 = load_image_as_base64('E.png')
+
     elif (index_finger_tip[1] < thumb_tip[1] and
           index_finger_tip[1] < middle_finger_tip[1] and
           index_finger_tip[1] < ring_finger_tip[1] and
@@ -247,7 +247,10 @@ def detectar_abecedario():
                         return jsonify({'letra': 'C', 'icono': icono_base64}) 
                     elif gesture['letra'] == 'E':
                         icono_base64 = load_image_as_base64('E.png')
-                        return jsonify({'letra': 'E', 'icono': icono_base64})                                                                                             
+                        return jsonify({'letra': 'E', 'icono': icono_base64})   
+                    elif gesture['letra'] == 'F':
+                        icono_base64 = load_image_as_base64('F.png')
+                        return jsonify({'letra': 'F', 'icono': icono_base64})                                                                                                                   
         else:
             return jsonify({'gesture': 'No se detectaron manos'})
     
