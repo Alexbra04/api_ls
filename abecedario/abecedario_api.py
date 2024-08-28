@@ -107,7 +107,7 @@ def procesar_gesto(hand_landmarks, image):
         letra = 'D'
         icono_base64 = load_image_as_base64('D.png')
 
-    elif abs(index_finger_tip[1] - thumb_tip[1]) < 360 and \
+    elif abs(index_finger_tip[1] - thumb_tip[1]) < 460 and \
         index_finger_tip[1] - middle_finger_pip[1]<0 and index_finger_tip[1] - middle_finger_tip[1] < 0 and \
             index_finger_tip[1] - index_finger_pip[1] > 0:
         letra = 'C'
@@ -127,7 +127,7 @@ def procesar_gesto(hand_landmarks, image):
         ring_finger_pip[1] - ring_finger_tip[1] > 0 and index_finger_pip[1] - index_finger_tip[1] < 0 \
             and abs(thumb_pip[1] - thumb_tip[1]) > 0 and distancia_euclidiana(index_finger_tip, thumb_tip) <65:
         letra = 'F'
-        icono_base64 = load_image_as_base64('E.png')
+        icono_base64 = load_image_as_base64('F.png')
 
     elif index_finger_pip[1] - index_finger_tip[1]>0 and pinky_pip[1] - pinky_tip[1] < 0 and \
         middle_finger_pip[1] - middle_finger_tip[1] >0 and ring_finger_pip[1] - ring_finger_tip[1] <0 and \
