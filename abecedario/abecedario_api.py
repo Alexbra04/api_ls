@@ -134,6 +134,7 @@ def procesar_gesto(hand_landmarks, image):
             middle_finger_tip[1] - ring_finger_tip[1] <0 and abs(thumb_tip[1] - ring_finger_pip2[1])<20:       
         letra = 'H'
         icono_base64 = load_image_as_base64('H.png')
+        
     elif (pinky_tip[1] < thumb_tip[1] and
         pinky_tip[1] < index_finger_tip[1] and
         pinky_tip[1] < middle_finger_tip[1] and
