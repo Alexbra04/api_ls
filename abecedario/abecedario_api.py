@@ -155,8 +155,8 @@ def procesar_gesto(hand_landmarks, image):
         abs(ring_finger_tip[1] - ring_finger_pip[1]) < 30 and
         abs(pinky_tip[1] - pinky_pip[1]) < 30):
         return 'K'
-    elif distancia_euclidiana(thumb_tip, middle_finger_tip) > 198 \
-        and distancia_euclidiana(thumb_tip, ring_finger_tip) > 198 \
+    elif distancia_euclidiana(thumb_tip, middle_finger_tip) > 188 \
+        and distancia_euclidiana(thumb_tip, ring_finger_tip) > 188 \
         and  pinky_pip[1] - pinky_tip[1]<0\
         and index_finger_pip[1] - index_finger_tip[1]>0:
         letra = 'L'
