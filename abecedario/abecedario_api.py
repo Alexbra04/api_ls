@@ -186,7 +186,13 @@ def procesar_gesto(hand_landmarks, image):
         pinky_pip[1] < pinky_tip[1] and
         abs(thumb_tip[0] - index_finger_pip[0]) < 30):
         return 'P'
-    
+
+    elif distancia_euclidiana(thumb_tip, middle_finger_tip) > 60 \
+        and distancia_euclidiana(thumb_tip, ring_finger_tip) > 60 \
+        and pinky_pip[1] - pinky_tip[1] > 0 and index_finger_pip[1] - index_finger_tip[1] < 0:
+        letra = 'Y'
+        icono_base64 = load_image_as_base64('Y.png')
+
     return {'letra': letra, 'icono': icono_base64}
 
 def rotar_imagen_a_vertical(image):
@@ -257,7 +263,10 @@ def detectar_abecedario():
                         return jsonify({'letra': 'K', 'icono': icono_base64})      
                     elif gesture['letra'] == 'O':
                         icono_base64 = load_image_as_base64('O.png')
-                        return jsonify({'letra': 'O', 'icono': icono_base64})                                                                                                                                                                                                                                                   
+                        return jsonify({'letra': 'O', 'icono': icono_base64})    
+                    elif gesture['letra'] == 'Y':
+                        icono_base64 = load_image_as_base64('Y.png')
+                        return jsonify({'letra': 'Y', 'icono': icono_base64})                                                                                                                                                                                                                                                                       
         else:
             return jsonify({'gesture': 'No se detectaron manos'})
     
