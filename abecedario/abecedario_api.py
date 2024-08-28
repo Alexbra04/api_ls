@@ -150,8 +150,8 @@ def procesar_gesto(hand_landmarks, image):
     elif index_finger_pip[1] - index_finger_tip[1]>0 and pinky_pip[1] - pinky_tip[1] < 0 and \
         middle_finger_pip[1] - middle_finger_tip[1] >0 and ring_finger_pip[1] - ring_finger_tip[1] <0 and \
             middle_finger_tip[1] - ring_finger_tip[1] <0 and abs(thumb_tip[1] - middle_finger_pip[1])>0.2:  
-        letra = 'K'
-        icono_base64 = load_image_as_base64('K.png')
+        letra = 'U'
+        icono_base64 = load_image_as_base64('U.png')
 
     elif distancia_euclidiana(thumb_tip, middle_finger_tip) > 188 \
         and distancia_euclidiana(thumb_tip, ring_finger_tip) > 188 \
@@ -258,9 +258,9 @@ def detectar_abecedario():
                     elif gesture['letra'] == 'I':
                         icono_base64 = load_image_as_base64('I.png')
                         return jsonify({'letra': 'I', 'icono': icono_base64})      
-                    elif gesture['letra'] == 'K':
-                        icono_base64 = load_image_as_base64('K.png')
-                        return jsonify({'letra': 'K', 'icono': icono_base64})      
+                    elif gesture['letra'] == 'U':
+                        icono_base64 = load_image_as_base64('U.png')
+                        return jsonify({'letra': 'U', 'icono': icono_base64})      
                     elif gesture['letra'] == 'O':
                         icono_base64 = load_image_as_base64('O.png')
                         return jsonify({'letra': 'O', 'icono': icono_base64})    
