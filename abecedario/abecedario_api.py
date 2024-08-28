@@ -160,14 +160,16 @@ def procesar_gesto(hand_landmarks, image):
         letra = 'L'
         icono_base64 = load_image_as_base64('L.png')
 
-    elif index_finger_pip[1] - index_finger_tip[1] < 0 and pinky_pip[1] - pinky_tip[1] < 0 and \
-        middle_finger_pip[1] - middle_finger_tip[1] < 0 and ring_finger_pip[1] - ring_finger_tip[1] < 0 \
-            and abs(index_finger_tip[1] - thumb_tip[1]) < 25 and \
-                thumb_tip[1] - index_finger_tip[1] > 0 \
-                and thumb_tip[1] - middle_finger_tip[1] > 0 \
-                and thumb_tip[1] - ring_finger_tip[1] > 0 \
-                and thumb_tip[1] - pinky_tip[1] > 0:
-        return 'M'
+    elif (pinky_tip > thumb_tip and  
+        pinky_tip > index_finger_tip and  
+        pinky_tip > middle_finger_tip and  
+        pinky_tip > ring_finger_tip and  
+        index_finger_tip < thumb_tip and  
+        middle_finger_tip < thumb_tip and  
+        ring_finger_tip < thumb_tip): 
+        letra = 'M'
+        icono_base64 = load_image_as_base64('M.png')
+
     elif distancia_euclidiana(thumb_tip, middle_finger_tip) < 100 \
         and distancia_euclidiana(thumb_tip, ring_finger_tip) < 120 \
         and  pinky_pip[1] - pinky_tip[1]<0\
@@ -250,7 +252,10 @@ def detectar_abecedario():
                         return jsonify({'letra': 'I', 'icono': icono_base64})      
                     elif gesture['letra'] == 'K':
                         icono_base64 = load_image_as_base64('K.png')
-                        return jsonify({'letra': 'K', 'icono': icono_base64})                                                                                                                                                                                                        
+                        return jsonify({'letra': 'K', 'icono': icono_base64})     
+                    elif gesture['letra'] == 'M':
+                        icono_base64 = load_image_as_base64('M.png')
+                        return jsonify({'letra': 'M', 'icono': icono_base64})                                                                                                                                                                                                                            
         else:
             return jsonify({'gesture': 'No se detectaron manos'})
     
